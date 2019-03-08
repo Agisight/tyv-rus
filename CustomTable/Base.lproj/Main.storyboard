@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zHK-1z-g4F">
+    <device id="ipad12_9" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Сөстүк-->
+        <scene sceneID="JGv-1V-a3s">
+            <objects>
+                <tableViewController title="Сөстүк" id="2h8-F1-xfA" customClass="TranslationViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="71" sectionHeaderHeight="22" sectionFooterHeight="22" id="h2E-yo-TSZ">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" text="" placeholder="Сөстү киириңер" showsCancelButton="YES" id="Xg3-Gj-CyG">
+                            <rect key="frame" x="0.0" y="0.0" width="1024" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="2h8-F1-xfA" id="Hbh-qz-dx5"/>
+                            </connections>
+                        </searchBar>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TableCell" rowHeight="71" id="gWo-Cz-NTb" customClass="TableCell">
+                                <rect key="frame" x="0.0" y="66" width="1024" height="71"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gWo-Cz-NTb" id="aeh-26-des">
+                                    <rect key="frame" x="0.0" y="0.0" width="986" height="70.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3NC-rN-Pk0">
+                                            <rect key="frame" x="20" y="15" width="958" height="41"/>
+                                            <attributedString key="attributedText">
+                                                <fragment content="Label">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <font key="NSFont" size="17" name="HelveticaNeue"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailingMargin" secondItem="3NC-rN-Pk0" secondAttribute="trailing" id="7Mq-dc-1dH"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="3NC-rN-Pk0" secondAttribute="bottom" id="Yc6-af-nbn"/>
+                                        <constraint firstItem="3NC-rN-Pk0" firstAttribute="top" secondItem="aeh-26-des" secondAttribute="topMargin" id="vsA-LO-Wrh"/>
+                                        <constraint firstItem="3NC-rN-Pk0" firstAttribute="leading" secondItem="aeh-26-des" secondAttribute="leadingMargin" id="wXP-On-NFr"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="nameLabel" destination="3NC-rN-Pk0" id="Z1h-dB-fm4"/>
+                                    <segue destination="Ozd-lY-wGV" kind="show" identifier="showDetail" id="Sx9-8x-Uci"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="2h8-F1-xfA" id="9YE-n7-kbW"/>
+                            <outlet property="delegate" destination="2h8-F1-xfA" id="O3U-9z-YL9"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Тыва-орус сөстүк" id="utS-Ph-Zss"/>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="ik7-AN-ttP" id="7HA-xD-OOp"/>
+                        <outlet property="tv" destination="h2E-yo-TSZ" id="acD-6z-EBX"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DOG-nl-28K" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="ik7-AN-ttP">
+                    <connections>
+                        <outlet property="delegate" destination="2h8-F1-xfA" id="SZd-9h-gfe"/>
+                        <outlet property="searchBar" destination="Xg3-Gj-CyG" id="wNw-00-PVw"/>
+                        <outlet property="searchContentsController" destination="2h8-F1-xfA" id="S0a-kC-A38"/>
+                        <outlet property="searchResultsDataSource" destination="2h8-F1-xfA" id="Fx7-BR-gQa"/>
+                        <outlet property="searchResultsDelegate" destination="2h8-F1-xfA" id="ed1-ce-Xyc"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="1854.4000000000001" y="38.680659670164921"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="AcM-qs-uKV">
+            <objects>
+                <viewController title="Detail View Controller" id="Ozd-lY-wGV" customClass="DetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Luy-IT-K6u"/>
+                        <viewControllerLayoutGuide type="bottom" id="Gfy-iV-QDj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="CfN-ZF-zqv">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleAspectFit" keyboardDismissMode="interactive" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XzC-1J-PZU">
+                                <rect key="frame" x="20" y="70" width="984" height="1246"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Тайылбыр сөзүглел">
+                                        <attributes>
+                                            <font key="NSFont" size="18" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" textContentType="organization-title"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="XzC-1J-PZU" secondAttribute="trailing" id="GeH-Zj-l7M"/>
+                            <constraint firstItem="XzC-1J-PZU" firstAttribute="top" secondItem="CfN-ZF-zqv" secondAttribute="topMargin" id="KAC-xI-y3L"/>
+                            <constraint firstItem="XzC-1J-PZU" firstAttribute="leading" secondItem="CfN-ZF-zqv" secondAttribute="leadingMargin" id="MZj-BH-AVZ"/>
+                            <constraint firstItem="Gfy-iV-QDj" firstAttribute="top" secondItem="XzC-1J-PZU" secondAttribute="bottom" id="k0R-gk-BVo"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="2ky-W7-NpC">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="5jE-nw-rak">
+                            <connections>
+                                <action selector="shareHasTapped:" destination="Ozd-lY-wGV" id="rxN-U7-Xlt"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="taiyl" destination="XzC-1J-PZU" id="SrA-kY-z7c"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kZe-Wo-786" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2593.6000000000004" y="38.680659670164921"/>
+        </scene>
+        <!--Сөстүк-->
+        <scene sceneID="2oW-Zq-mQm">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="CcX-Rl-xqG" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Сөстүк" id="rGf-v4-uK6"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="xGd-5L-209">
+                        <rect key="frame" x="0.0" y="20" width="1024" height="50"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="2h8-F1-xfA" kind="relationship" relationship="rootViewController" id="hk3-QB-bhE"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OYU-im-9RB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1088" y="38.680659670164921"/>
+        </scene>
+        <!--tyvan.ru-->
+        <scene sceneID="1RH-W5-CjX">
+            <objects>
+                <viewController id="82H-bw-sX4" customClass="AboutViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Od3-5i-ifz"/>
+                        <viewControllerLayoutGuide type="bottom" id="Le3-9E-eme"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ny8-MV-uzO">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="translator" translatesAutoresizingMaskIntoConstraints="NO" id="kOU-VK-7B8">
+                                <rect key="frame" x="440" y="64" width="144" height="144"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="90" id="Xle-re-XgX">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="144"/>
+                                    </constraint>
+                                    <constraint firstAttribute="width" constant="90" id="jF6-QQ-327">
+                                        <variation key="heightClass=regular-widthClass=regular" constant="144"/>
+                                    </constraint>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oM9-CA-hby">
+                                <rect key="frame" x="20" y="252" width="984" height="200.5"/>
+                                <string key="text">Приложение теперь поддерживает проект www.tyvan.ru. В рамках проекта необходимо собрать более 1 000 000 тувинско-русских и русско-тувинских переводов. В последствии, мы можем подучить для тувинского языка Яндекс/Гугл переводчики. А это даст нам надежду внедрить голосовые технологии как Сири, Алиса и т.д..  Вы можете поддержать нас немного деньгами через сайт – мы будем расширять базу переводов.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                </variation>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gw1-AV-2kz">
+                                <rect key="frame" x="20" y="496.5" width="984" height="51"/>
+                                <color key="backgroundColor" red="0.96177369356155396" green="0.81138426065444946" blue="0.017341028898954391" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="––&gt; www.tyvan.ru">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <variation key="heightClass=regular-widthClass=regular">
+                                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                </variation>
+                                <connections>
+                                    <action selector="goToSite:" destination="82H-bw-sX4" eventType="touchUpInside" id="cfa-Li-dkY"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.9965168833732605" green="0.99988728761672974" blue="0.99582308530807495" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="kOU-VK-7B8" firstAttribute="centerX" secondItem="Ny8-MV-uzO" secondAttribute="centerX" id="0w2-pu-4TR"/>
+                            <constraint firstItem="gw1-AV-2kz" firstAttribute="leading" secondItem="Ny8-MV-uzO" secondAttribute="leadingMargin" id="1xe-Qj-aLI"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="gw1-AV-2kz" secondAttribute="trailing" id="5rR-5D-AAT"/>
+                            <constraint firstItem="oM9-CA-hby" firstAttribute="leading" secondItem="Ny8-MV-uzO" secondAttribute="leadingMargin" id="6gY-oX-7hT"/>
+                            <constraint firstItem="gw1-AV-2kz" firstAttribute="top" secondItem="oM9-CA-hby" secondAttribute="bottom" constant="8" id="9Cv-RH-i3i">
+                                <variation key="heightClass=regular-widthClass=regular" constant="44"/>
+                            </constraint>
+                            <constraint firstItem="oM9-CA-hby" firstAttribute="top" secondItem="kOU-VK-7B8" secondAttribute="bottom" constant="8" id="dDE-Xy-M3f">
+                                <variation key="heightClass=regular-widthClass=regular" constant="44"/>
+                            </constraint>
+                            <constraint firstAttribute="trailingMargin" secondItem="oM9-CA-hby" secondAttribute="trailing" id="elJ-2N-1sn"/>
+                            <constraint firstItem="kOU-VK-7B8" firstAttribute="top" secondItem="Od3-5i-ifz" secondAttribute="bottom" constant="8" id="ygt-Nq-vne">
+                                <variation key="heightClass=regular-widthClass=regular" constant="44"/>
+                            </constraint>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="tyvan.ru" id="E5a-yJ-juf"/>
+                    <navigationItem key="navigationItem" id="uZl-YN-feX"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LUG-QT-T5o" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="346.875" y="-652.70863836017566"/>
+        </scene>
+        <!--MyUI Tab BarC-->
+        <scene sceneID="O03-GA-6hF">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="zHK-1z-g4F" customClass="MyUITabBarC" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="ZEQ-Ja-O5c">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="CcX-Rl-xqG" kind="relationship" relationship="viewControllers" id="XNp-96-f4n"/>
+                        <segue destination="ZXS-je-2MP" kind="relationship" relationship="viewControllers" id="nSu-0d-vWo"/>
+                        <segue destination="wZG-XL-hhY" kind="relationship" relationship="viewControllers" id="4It-bU-IVL"/>
+                        <segue destination="82H-bw-sX4" kind="relationship" relationship="viewControllers" id="pNL-0a-mlO"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WOR-vW-ccV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="347" y="39"/>
+        </scene>
+        <!--Очулга-->
+        <scene sceneID="n1P-Ne-Si6">
+            <objects>
+                <tableViewController title="Очулга" id="63b-x3-Qdn" customClass="TranslationViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="71" sectionHeaderHeight="22" sectionFooterHeight="22" id="cUL-tU-eV1">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" text="" placeholder="Сөстү киириңер" showsSearchResultsButton="YES" showsCancelButton="YES" scopeBarBackgroundImage="Image" id="m0g-8N-2DO">
+                            <rect key="frame" x="0.0" y="0.0" width="1024" height="56"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <offsetWrapper key="searchTextPositionAdjustment" horizontal="0.0" vertical="3"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="63b-x3-Qdn" id="S5T-18-REe"/>
+                            </connections>
+                        </searchBar>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TableCell" rowHeight="71" id="X5m-kW-zzH" customClass="TableCell">
+                                <rect key="frame" x="0.0" y="78" width="1024" height="71"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="X5m-kW-zzH" id="Yja-xP-H4u">
+                                    <rect key="frame" x="0.0" y="0.0" width="986" height="70.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0s9-o0-IJ6">
+                                            <rect key="frame" x="20" y="15" width="958" height="41"/>
+                                            <attributedString key="attributedText">
+                                                <fragment content="Label">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <font key="NSFont" size="17" name="HelveticaNeue"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="0s9-o0-IJ6" firstAttribute="top" secondItem="Yja-xP-H4u" secondAttribute="topMargin" id="00K-EH-oSE"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="0s9-o0-IJ6" secondAttribute="bottom" id="WiE-cX-i87"/>
+                                        <constraint firstItem="0s9-o0-IJ6" firstAttribute="leading" secondItem="Yja-xP-H4u" secondAttribute="leadingMargin" id="p7d-2f-HaE"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="0s9-o0-IJ6" secondAttribute="trailing" id="tXL-rh-Z8k"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="nameLabel" destination="0s9-o0-IJ6" id="7mb-ae-SWx"/>
+                                    <segue destination="Bao-Xs-5QP" kind="show" identifier="showDetail" id="udU-k6-Kgk"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="63b-x3-Qdn" id="Ujf-yt-hD9"/>
+                            <outlet property="delegate" destination="63b-x3-Qdn" id="P0h-m9-Vdh"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Тыва-орус очулдурукчу" id="YCw-xU-SX9"/>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="ik7-AN-ttP" id="TrQ-mv-1XX"/>
+                        <outlet property="tv" destination="cUL-tU-eV1" id="Cnv-hf-oe1"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Mv8-je-OVO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="Nux-H7-q14">
+                    <connections>
+                        <outlet property="delegate" destination="63b-x3-Qdn" id="i5q-hd-FtD"/>
+                        <outlet property="searchBar" destination="m0g-8N-2DO" id="SA3-kb-cXX"/>
+                        <outlet property="searchContentsController" destination="63b-x3-Qdn" id="4r3-MH-Imk"/>
+                        <outlet property="searchResultsDataSource" destination="63b-x3-Qdn" id="l0p-3b-sgt"/>
+                        <outlet property="searchResultsDelegate" destination="63b-x3-Qdn" id="Lfo-i3-iOp"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="1854" y="712"/>
+        </scene>
+        <!--Тыва-Орус-->
+        <scene sceneID="UQp-8g-9Rs">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZXS-je-2MP" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Тыва-Орус" id="WiN-wx-0n4"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="V7V-O4-6RF">
+                        <rect key="frame" x="0.0" y="20" width="1024" height="50"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="63b-x3-Qdn" kind="relationship" relationship="rootViewController" id="w85-If-xbP"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FGc-Gb-sBa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1088" y="712"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="BfN-TY-YtV">
+            <objects>
+                <viewController title="Detail View Controller" id="Bao-Xs-5QP" customClass="DetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="m2V-zW-HT6"/>
+                        <viewControllerLayoutGuide type="bottom" id="4Te-tJ-A4Q"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="d4h-qF-CyK">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleAspectFit" keyboardDismissMode="interactive" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3UH-BT-9s1">
+                                <rect key="frame" x="20" y="70" width="984" height="1246"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Тайылбыр сөзүглел">
+                                        <attributes>
+                                            <font key="NSFont" size="18" name="HelveticaNeue"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" textContentType="organization-title"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="4Te-tJ-A4Q" firstAttribute="top" secondItem="3UH-BT-9s1" secondAttribute="bottom" id="8qJ-bN-B0X"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="3UH-BT-9s1" secondAttribute="trailing" id="Csp-CU-alN"/>
+                            <constraint firstItem="3UH-BT-9s1" firstAttribute="top" secondItem="d4h-qF-CyK" secondAttribute="topMargin" id="dQE-kC-QVq"/>
+                            <constraint firstItem="3UH-BT-9s1" firstAttribute="leading" secondItem="d4h-qF-CyK" secondAttribute="leadingMargin" id="yI7-rM-FNN"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="AwV-WC-KiM">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="30o-uE-aDq">
+                            <connections>
+                                <action selector="shareHasTapped:" destination="Bao-Xs-5QP" id="cpH-bR-War"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="taiyl" destination="3UH-BT-9s1" id="O8A-9X-DUi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I0W-H1-yPs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2593" y="712"/>
+        </scene>
+        <!--Рус-Тув-->
+        <scene sceneID="ngf-4I-BnF">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wZG-XL-hhY" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Рус-Тув" id="gfw-pN-mPj"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4d0-wh-QI0">
+                        <rect key="frame" x="0.0" y="20" width="1024" height="50"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="VAt-27-cHQ" kind="relationship" relationship="rootViewController" id="9zP-0e-6fH"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="t0Z-k5-T6P" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1088" y="1424"/>
+        </scene>
+        <!--Перевод-->
+        <scene sceneID="twg-Wg-E4v">
+            <objects>
+                <tableViewController title="Перевод" id="VAt-27-cHQ" customClass="TranslationViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" tag="1" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="71" sectionHeaderHeight="22" sectionFooterHeight="22" id="b4R-VD-uzT">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" text="" placeholder="Введите слово" showsSearchResultsButton="YES" showsCancelButton="YES" scopeBarBackgroundImage="Image" id="wcM-FO-E23">
+                            <rect key="frame" x="0.0" y="0.0" width="1024" height="56"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <offsetWrapper key="searchTextPositionAdjustment" horizontal="0.0" vertical="3"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="VAt-27-cHQ" id="Uwz-po-iwh"/>
+                            </connections>
+                        </searchBar>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TableCell" rowHeight="71" id="YAe-LE-ae9" customClass="TableCell">
+                                <rect key="frame" x="0.0" y="78" width="1024" height="71"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YAe-LE-ae9" id="egx-Nj-0w5">
+                                    <rect key="frame" x="0.0" y="0.0" width="986" height="70.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Mq-yZ-w9y">
+                                            <rect key="frame" x="20" y="15" width="958" height="41"/>
+                                            <attributedString key="attributedText">
+                                                <fragment content="Label">
+                                                    <attributes>
+                                                        <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <font key="NSFont" size="17" name="HelveticaNeue"/>
+                                                        <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="2Mq-yZ-w9y" firstAttribute="leading" secondItem="egx-Nj-0w5" secondAttribute="leadingMargin" id="AO6-ec-c6V"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="2Mq-yZ-w9y" secondAttribute="bottom" id="D5j-CC-CqG"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="2Mq-yZ-w9y" secondAttribute="trailing" id="V5e-6G-Uhh"/>
+                                        <constraint firstItem="2Mq-yZ-w9y" firstAttribute="top" secondItem="egx-Nj-0w5" secondAttribute="topMargin" id="WiF-1p-HYG"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="nameLabel" destination="2Mq-yZ-w9y" id="MBP-pL-gRA"/>
+                                    <segue destination="9Yn-Ny-Vhp" kind="show" identifier="showDetail" id="Pxe-HJ-2Ug"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="VAt-27-cHQ" id="MxX-Ld-rMO"/>
+                            <outlet property="delegate" destination="VAt-27-cHQ" id="Ug3-Ab-daR"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Русско-тувинский переводчик" id="lhn-h2-1Gr"/>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="ik7-AN-ttP" id="WXe-iw-ulv"/>
+                        <outlet property="tv" destination="b4R-VD-uzT" id="qFj-eQ-yot"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ydh-tB-TYq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="lnn-Yf-iva">
+                    <connections>
+                        <outlet property="delegate" destination="VAt-27-cHQ" id="xpy-oS-Ccy"/>
+                        <outlet property="searchBar" destination="wcM-FO-E23" id="KsS-qw-4G9"/>
+                        <outlet property="searchContentsController" destination="VAt-27-cHQ" id="Sst-UK-Zvt"/>
+                        <outlet property="searchResultsDataSource" destination="VAt-27-cHQ" id="qTL-im-S7A"/>
+                        <outlet property="searchResultsDelegate" destination="VAt-27-cHQ" id="sgI-9x-OiR"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="1853" y="1424"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="VIb-ws-xUW">
+            <objects>
+                <viewController title="Detail View Controller" id="9Yn-Ny-Vhp" customClass="DetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jz6-Lt-LrA"/>
+                        <viewControllerLayoutGuide type="bottom" id="MVk-fQ-XcR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="REi-Hy-vBX">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleAspectFit" keyboardDismissMode="interactive" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C4s-0v-VtF">
+                                <rect key="frame" x="20" y="70" width="984" height="1246"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Результат поиска">
+                                        <attributes>
+                                            <font key="NSFont" size="18" name="Helvetica"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" textContentType="organization-title"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="C4s-0v-VtF" firstAttribute="leading" secondItem="REi-Hy-vBX" secondAttribute="leadingMargin" id="BeD-Nr-y2c"/>
+                            <constraint firstItem="C4s-0v-VtF" firstAttribute="top" secondItem="REi-Hy-vBX" secondAttribute="topMargin" id="WRm-wX-aaN"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="C4s-0v-VtF" secondAttribute="trailing" id="XCb-eS-jIf"/>
+                            <constraint firstItem="MVk-fQ-XcR" firstAttribute="top" secondItem="C4s-0v-VtF" secondAttribute="bottom" id="mPL-dh-JAA"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="c0H-W3-Wg6">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="vZp-r2-CRb">
+                            <connections>
+                                <action selector="shareHasTapped:" destination="9Yn-Ny-Vhp" id="dxc-I0-WH0"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="taiyl" destination="C4s-0v-VtF" id="APy-ca-vut"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yyK-MW-Bcq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2591" y="1424"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Image" width="1495" height="1495"/>
+        <image name="translator" width="144" height="144"/>
+    </resources>
+</document>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3Z7-5C-QFA"/>
+                        <viewControllerLayoutGuide type="bottom" id="elz-cc-7ZE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wvN-Te-sCb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Copyright (c) 2015 Ali Kuzhuget. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="hm0-dW-CDI">
+                                <rect key="frame" x="67.333333333333343" y="702.66666666666663" width="279.33333333333326" height="13.333333333333371"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Тыва-орус очулдурукчу" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="BJU-m8-KIi">
+                                <rect key="frame" x="71" y="373" width="272.33333333333331" height="27.666666666666686"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
+                                <color key="textColor" red="0.071737773716449738" green="0.47741240262985229" blue="0.95921415090560913" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Тувинско-русский переводчик" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B0u-fi-2rQ">
+                                <rect key="frame" x="59" y="408.66666666666669" width="296" height="26.333333333333314"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <color key="textColor" red="0.66143447160720825" green="0.22866246104240417" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch" translatesAutoresizingMaskIntoConstraints="NO" id="2gU-fv-Cff">
+                                <rect key="frame" x="103.66666666666669" y="142" width="207" height="207"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="2gU-fv-Cff" secondAttribute="height" multiplier="1:1" id="YFq-qq-tGl"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="www.tyvan.ru" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G21-j9-xlr">
+                                <rect key="frame" x="139.66666666666666" y="443" width="134.99999999999997" height="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <color key="textColor" red="1" green="0.35602224637704172" blue="0.01132858992533059" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="2gU-fv-Cff" firstAttribute="centerY" secondItem="wvN-Te-sCb" secondAttribute="centerY" multiplier="2/3" id="7ld-eJ-p9W"/>
+                            <constraint firstItem="G21-j9-xlr" firstAttribute="centerX" secondItem="wvN-Te-sCb" secondAttribute="centerX" id="NV7-1m-pXP"/>
+                            <constraint firstItem="B0u-fi-2rQ" firstAttribute="centerX" secondItem="wvN-Te-sCb" secondAttribute="centerX" id="Q7C-wM-Mxn"/>
+                            <constraint firstItem="2gU-fv-Cff" firstAttribute="width" relation="lessThanOrEqual" secondItem="wvN-Te-sCb" secondAttribute="width" multiplier="0.5" id="SMA-Lq-3rd"/>
+                            <constraint firstItem="hm0-dW-CDI" firstAttribute="centerX" secondItem="wvN-Te-sCb" secondAttribute="centerX" id="T8o-qU-TUh"/>
+                            <constraint firstItem="B0u-fi-2rQ" firstAttribute="top" secondItem="BJU-m8-KIi" secondAttribute="bottom" constant="8" id="aWD-LI-mUv"/>
+                            <constraint firstItem="elz-cc-7ZE" firstAttribute="top" secondItem="hm0-dW-CDI" secondAttribute="bottom" constant="20" id="ben-bJ-n5q"/>
+                            <constraint firstItem="G21-j9-xlr" firstAttribute="top" secondItem="B0u-fi-2rQ" secondAttribute="bottom" constant="8" id="cPy-Zd-0jE"/>
+                            <constraint firstItem="BJU-m8-KIi" firstAttribute="centerX" secondItem="wvN-Te-sCb" secondAttribute="centerX" id="jcq-69-nmx"/>
+                            <constraint firstItem="BJU-m8-KIi" firstAttribute="top" secondItem="2gU-fv-Cff" secondAttribute="bottom" constant="24" id="onm-W5-j3E"/>
+                            <constraint firstItem="2gU-fv-Cff" firstAttribute="centerX" secondItem="wvN-Te-sCb" secondAttribute="centerX" id="tkX-r9-goI"/>
+                            <constraint firstItem="2gU-fv-Cff" firstAttribute="top" relation="greaterThanOrEqual" secondItem="wvN-Te-sCb" secondAttribute="top" constant="12" id="xMT-7x-FNS"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53" y="375"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="launch" width="512" height="512"/>
+    </resources>
+</document>

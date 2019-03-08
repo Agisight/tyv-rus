@@ -1,0 +1,545 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4150BEE71B4DA59700C91F1F /* Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4150BEE61B4DA59700C91F1F /* Parser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		416C6C092231E6D5008CCE61 /* TyvanServerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 416C6C082231E6D5008CCE61 /* TyvanServerController.m */; };
+		419852ED2003D94000122A3A /* tyv-rus.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 419852EC2003D94000122A3A /* tyv-rus.jpeg */; };
+		419852EF2003DB4800122A3A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 419852EE2003DB4800122A3A /* MobileCoreServices.framework */; };
+		419852F32003DE4100122A3A /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 419852F22003DE4100122A3A /* Launch Screen.storyboard */; };
+		419852F92003EA4C00122A3A /* CYRKeyboardButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 419852F62003EA4C00122A3A /* CYRKeyboardButton.m */; };
+		419852FA2003EA4C00122A3A /* CYRKeyboardButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 419852F82003EA4C00122A3A /* CYRKeyboardButtonView.m */; };
+		41AF0BD821E0F7C1008999D0 /* TurtleBezierPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 41AF0BD721E0F7C1008999D0 /* TurtleBezierPath.m */; };
+		41E0FBC71B5290C1001558AF /* soster.strings in Resources */ = {isa = PBXBuildFile; fileRef = 41E0FBC51B5290C1001558AF /* soster.strings */; };
+		41E0FBC81B5290C1001558AF /* words.strings in Resources */ = {isa = PBXBuildFile; fileRef = 41E0FBC61B5290C1001558AF /* words.strings */; };
+		41F2B8E91B65360900E0F1A5 /* MyUITabBarC.m in Sources */ = {isa = PBXBuildFile; fileRef = 41F2B8E81B65360900E0F1A5 /* MyUITabBarC.m */; };
+		F41C80A218531640002AE0A3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41C80A118531640002AE0A3 /* Foundation.framework */; };
+		F41C80A418531640002AE0A3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41C80A318531640002AE0A3 /* CoreGraphics.framework */; };
+		F41C80A618531640002AE0A3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41C80A518531640002AE0A3 /* UIKit.framework */; };
+		F41C80AC18531640002AE0A3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F41C80AA18531640002AE0A3 /* InfoPlist.strings */; };
+		F41C80AE18531640002AE0A3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F41C80AD18531640002AE0A3 /* main.m */; };
+		F41C80B218531640002AE0A3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F41C80B118531640002AE0A3 /* AppDelegate.m */; };
+		F41C80B518531640002AE0A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F41C80B318531640002AE0A3 /* Main.storyboard */; };
+		F41C80B818531640002AE0A3 /* TranslationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F41C80B718531640002AE0A3 /* TranslationViewController.m */; };
+		F41C80BA18531640002AE0A3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F41C80B918531640002AE0A3 /* Images.xcassets */; };
+		F41C80F818577EB8002AE0A3 /* TableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F41C80F718577EB8002AE0A3 /* TableCell.m */; };
+		F49F790F186882700036E03F /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F49F790E186882700036E03F /* DetailViewController.m */; };
+		F49F7912186937070036E03F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F49F7911186937070036E03F /* AboutViewController.m */; };
+		F49F791F186AC9FD0036E03F /* Translation.m in Sources */ = {isa = PBXBuildFile; fileRef = F49F791E186AC9FD0036E03F /* Translation.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4150BEE51B4DA59700C91F1F /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
+		4150BEE61B4DA59700C91F1F /* Parser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Parser.m; sourceTree = "<group>"; };
+		416C6C072231E6D5008CCE61 /* TyvanServerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TyvanServerController.h; sourceTree = "<group>"; };
+		416C6C082231E6D5008CCE61 /* TyvanServerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TyvanServerController.m; sourceTree = "<group>"; };
+		419852EC2003D94000122A3A /* tyv-rus.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "tyv-rus.jpeg"; sourceTree = "<group>"; };
+		419852EE2003DB4800122A3A /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		419852F22003DE4100122A3A /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		419852F52003EA4C00122A3A /* CYRKeyboardButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYRKeyboardButton.h; sourceTree = "<group>"; };
+		419852F62003EA4C00122A3A /* CYRKeyboardButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYRKeyboardButton.m; sourceTree = "<group>"; };
+		419852F72003EA4C00122A3A /* CYRKeyboardButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYRKeyboardButtonView.h; sourceTree = "<group>"; };
+		419852F82003EA4C00122A3A /* CYRKeyboardButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYRKeyboardButtonView.m; sourceTree = "<group>"; };
+		41AF0BD721E0F7C1008999D0 /* TurtleBezierPath.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TurtleBezierPath.m; sourceTree = "<group>"; };
+		41AF0BD921E0F7D9008999D0 /* TurtleBezierPath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TurtleBezierPath.h; sourceTree = "<group>"; };
+		41E0FBC51B5290C1001558AF /* soster.strings */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = soster.strings; sourceTree = "<group>"; };
+		41E0FBC61B5290C1001558AF /* words.strings */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = words.strings; sourceTree = "<group>"; };
+		41F2B8E71B65360900E0F1A5 /* MyUITabBarC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyUITabBarC.h; sourceTree = "<group>"; };
+		41F2B8E81B65360900E0F1A5 /* MyUITabBarC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyUITabBarC.m; sourceTree = "<group>"; };
+		F41C809E18531640002AE0A3 /* tyv-rus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "tyv-rus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F41C80A118531640002AE0A3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F41C80A318531640002AE0A3 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		F41C80A518531640002AE0A3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		F41C80A918531640002AE0A3 /* tyv-rus-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "tyv-rus-Info.plist"; sourceTree = "<group>"; };
+		F41C80AB18531640002AE0A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F41C80AD18531640002AE0A3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F41C80AF18531640002AE0A3 /* tyv-rus-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tyv-rus-Prefix.pch"; sourceTree = "<group>"; };
+		F41C80B018531640002AE0A3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		F41C80B118531640002AE0A3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		F41C80B418531640002AE0A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F41C80B618531640002AE0A3 /* TranslationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TranslationViewController.h; sourceTree = "<group>"; };
+		F41C80B718531640002AE0A3 /* TranslationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TranslationViewController.m; sourceTree = "<group>"; };
+		F41C80B918531640002AE0A3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		F41C80F618577EB8002AE0A3 /* TableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableCell.h; sourceTree = "<group>"; };
+		F41C80F718577EB8002AE0A3 /* TableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableCell.m; sourceTree = "<group>"; };
+		F49F790D186882700036E03F /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		F49F790E186882700036E03F /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		F49F7910186937070036E03F /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		F49F7911186937070036E03F /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		F49F791D186AC9FD0036E03F /* Translation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Translation.h; sourceTree = "<group>"; };
+		F49F791E186AC9FD0036E03F /* Translation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Translation.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F41C809B18531640002AE0A3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				419852EF2003DB4800122A3A /* MobileCoreServices.framework in Frameworks */,
+				F41C80A418531640002AE0A3 /* CoreGraphics.framework in Frameworks */,
+				F41C80A618531640002AE0A3 /* UIKit.framework in Frameworks */,
+				F41C80A218531640002AE0A3 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		416C6BFD2231D25E008CCE61 /* TabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				41F2B8E71B65360900E0F1A5 /* MyUITabBarC.h */,
+				41F2B8E81B65360900E0F1A5 /* MyUITabBarC.m */,
+				416C6C022231DDBD008CCE61 /* TableViewController */,
+				416C6C002231DD6A008CCE61 /* DetailViewController */,
+				416C6BFF2231DD3D008CCE61 /* AboutViewController */,
+			);
+			name = TabBarController;
+			sourceTree = "<group>";
+		};
+		416C6BFE2231DD1D008CCE61 /* Translation */ = {
+			isa = PBXGroup;
+			children = (
+				F49F791D186AC9FD0036E03F /* Translation.h */,
+				F49F791E186AC9FD0036E03F /* Translation.m */,
+			);
+			name = Translation;
+			sourceTree = "<group>";
+		};
+		416C6BFF2231DD3D008CCE61 /* AboutViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F49F7910186937070036E03F /* AboutViewController.h */,
+				F49F7911186937070036E03F /* AboutViewController.m */,
+			);
+			name = AboutViewController;
+			sourceTree = "<group>";
+		};
+		416C6C002231DD6A008CCE61 /* DetailViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F49F790D186882700036E03F /* DetailViewController.h */,
+				F49F790E186882700036E03F /* DetailViewController.m */,
+			);
+			name = DetailViewController;
+			sourceTree = "<group>";
+		};
+		416C6C012231DD98008CCE61 /* TableCell */ = {
+			isa = PBXGroup;
+			children = (
+				F41C80F618577EB8002AE0A3 /* TableCell.h */,
+				F41C80F718577EB8002AE0A3 /* TableCell.m */,
+			);
+			name = TableCell;
+			sourceTree = "<group>";
+		};
+		416C6C022231DDBD008CCE61 /* TableViewController */ = {
+			isa = PBXGroup;
+			children = (
+				416C6C012231DD98008CCE61 /* TableCell */,
+				F41C80B618531640002AE0A3 /* TranslationViewController.h */,
+				F41C80B718531640002AE0A3 /* TranslationViewController.m */,
+				416C6C072231E6D5008CCE61 /* TyvanServerController.h */,
+				416C6C082231E6D5008CCE61 /* TyvanServerController.m */,
+			);
+			name = TableViewController;
+			sourceTree = "<group>";
+		};
+		416C6C032231DDC8008CCE61 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				F41C80B018531640002AE0A3 /* AppDelegate.h */,
+				F41C80B118531640002AE0A3 /* AppDelegate.m */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		416C6C042231DDE5008CCE61 /* Libs */ = {
+			isa = PBXGroup;
+			children = (
+				41AF0BDA21E0F7F1008999D0 /* TurtleBezierPath */,
+				419852F42003EA4C00122A3A /* CYRKeyboardButton */,
+			);
+			path = Libs;
+			sourceTree = "<group>";
+		};
+		416C6C052231DE53008CCE61 /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				4150BEE51B4DA59700C91F1F /* Parser.h */,
+				4150BEE61B4DA59700C91F1F /* Parser.m */,
+			);
+			path = Parser;
+			sourceTree = "<group>";
+		};
+		416C6C062231E0CA008CCE61 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				416C6C052231DE53008CCE61 /* Parser */,
+				416C6BFE2231DD1D008CCE61 /* Translation */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		419852F42003EA4C00122A3A /* CYRKeyboardButton */ = {
+			isa = PBXGroup;
+			children = (
+				419852F52003EA4C00122A3A /* CYRKeyboardButton.h */,
+				419852F62003EA4C00122A3A /* CYRKeyboardButton.m */,
+				419852F72003EA4C00122A3A /* CYRKeyboardButtonView.h */,
+				419852F82003EA4C00122A3A /* CYRKeyboardButtonView.m */,
+			);
+			path = CYRKeyboardButton;
+			sourceTree = "<group>";
+		};
+		41AF0BDA21E0F7F1008999D0 /* TurtleBezierPath */ = {
+			isa = PBXGroup;
+			children = (
+				41AF0BD721E0F7C1008999D0 /* TurtleBezierPath.m */,
+				41AF0BD921E0F7D9008999D0 /* TurtleBezierPath.h */,
+			);
+			name = TurtleBezierPath;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		F41C809518531640002AE0A3 = {
+			isa = PBXGroup;
+			children = (
+				F41C80A718531640002AE0A3 /* tyv-rus */,
+				F41C80A018531640002AE0A3 /* Frameworks */,
+				416C6C042231DDE5008CCE61 /* Libs */,
+				F41C809F18531640002AE0A3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F41C809F18531640002AE0A3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F41C809E18531640002AE0A3 /* tyv-rus.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F41C80A018531640002AE0A3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				419852EE2003DB4800122A3A /* MobileCoreServices.framework */,
+				F41C80A118531640002AE0A3 /* Foundation.framework */,
+				F41C80A318531640002AE0A3 /* CoreGraphics.framework */,
+				F41C80A518531640002AE0A3 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F41C80A718531640002AE0A3 /* tyv-rus */ = {
+			isa = PBXGroup;
+			children = (
+				F41C80B318531640002AE0A3 /* Main.storyboard */,
+				F41C80B918531640002AE0A3 /* Images.xcassets */,
+				416C6C032231DDC8008CCE61 /* AppDelegate */,
+				416C6BFD2231D25E008CCE61 /* TabBarController */,
+				416C6C062231E0CA008CCE61 /* Models */,
+				F41C80A818531640002AE0A3 /* Supporting Files */,
+			);
+			name = "tyv-rus";
+			path = CustomTable;
+			sourceTree = "<group>";
+		};
+		F41C80A818531640002AE0A3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				419852F22003DE4100122A3A /* Launch Screen.storyboard */,
+				419852EC2003D94000122A3A /* tyv-rus.jpeg */,
+				F41C80A918531640002AE0A3 /* tyv-rus-Info.plist */,
+				F41C80AA18531640002AE0A3 /* InfoPlist.strings */,
+				F41C80AD18531640002AE0A3 /* main.m */,
+				F41C80AF18531640002AE0A3 /* tyv-rus-Prefix.pch */,
+				41E0FBC51B5290C1001558AF /* soster.strings */,
+				41E0FBC61B5290C1001558AF /* words.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F41C809D18531640002AE0A3 /* tyv-rus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F41C80D018531640002AE0A3 /* Build configuration list for PBXNativeTarget "tyv-rus" */;
+			buildPhases = (
+				F41C809A18531640002AE0A3 /* Sources */,
+				F41C809B18531640002AE0A3 /* Frameworks */,
+				F41C809C18531640002AE0A3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "tyv-rus";
+			productName = CustomTable;
+			productReference = F41C809E18531640002AE0A3 /* tyv-rus.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F41C809618531640002AE0A3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = "";
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = Appcoda;
+				TargetAttributes = {
+					F41C809D18531640002AE0A3 = {
+						DevelopmentTeam = C7XLM7Q227;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = F41C809918531640002AE0A3 /* Build configuration list for PBXProject "tyv-rus" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F41C809518531640002AE0A3;
+			productRefGroup = F41C809F18531640002AE0A3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F41C809D18531640002AE0A3 /* tyv-rus */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F41C809C18531640002AE0A3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41E0FBC81B5290C1001558AF /* words.strings in Resources */,
+				F41C80BA18531640002AE0A3 /* Images.xcassets in Resources */,
+				41E0FBC71B5290C1001558AF /* soster.strings in Resources */,
+				F41C80AC18531640002AE0A3 /* InfoPlist.strings in Resources */,
+				419852F32003DE4100122A3A /* Launch Screen.storyboard in Resources */,
+				419852ED2003D94000122A3A /* tyv-rus.jpeg in Resources */,
+				F41C80B518531640002AE0A3 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F41C809A18531640002AE0A3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				419852FA2003EA4C00122A3A /* CYRKeyboardButtonView.m in Sources */,
+				F49F7912186937070036E03F /* AboutViewController.m in Sources */,
+				41AF0BD821E0F7C1008999D0 /* TurtleBezierPath.m in Sources */,
+				F49F791F186AC9FD0036E03F /* Translation.m in Sources */,
+				F41C80B218531640002AE0A3 /* AppDelegate.m in Sources */,
+				419852F92003EA4C00122A3A /* CYRKeyboardButton.m in Sources */,
+				F41C80B818531640002AE0A3 /* TranslationViewController.m in Sources */,
+				F41C80AE18531640002AE0A3 /* main.m in Sources */,
+				416C6C092231E6D5008CCE61 /* TyvanServerController.m in Sources */,
+				F41C80F818577EB8002AE0A3 /* TableCell.m in Sources */,
+				41F2B8E91B65360900E0F1A5 /* MyUITabBarC.m in Sources */,
+				4150BEE71B4DA59700C91F1F /* Parser.m in Sources */,
+				F49F790F186882700036E03F /* DetailViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		F41C80AA18531640002AE0A3 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F41C80AB18531640002AE0A3 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		F41C80B318531640002AE0A3 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F41C80B418531640002AE0A3 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F41C80CE18531640002AE0A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F41C80CF18531640002AE0A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F41C80D118531640002AE0A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ali Kuzhuget (UL64D2U25B)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CustomTable/tyv-rus-Prefix.pch";
+				INFOPLIST_FILE = "CustomTable/tyv-rus-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ru.tyv.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "tyv-rus";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		F41C80D218531640002AE0A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ali Kuzhuget (UL64D2U25B)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CustomTable/tyv-rus-Prefix.pch";
+				INFOPLIST_FILE = "CustomTable/tyv-rus-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ru.tyv.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "tyv-rus";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F41C809918531640002AE0A3 /* Build configuration list for PBXProject "tyv-rus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F41C80CE18531640002AE0A3 /* Debug */,
+				F41C80CF18531640002AE0A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F41C80D018531640002AE0A3 /* Build configuration list for PBXNativeTarget "tyv-rus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F41C80D118531640002AE0A3 /* Debug */,
+				F41C80D218531640002AE0A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F41C809618531640002AE0A3 /* Project object */;
+}
