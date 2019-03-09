@@ -11,28 +11,19 @@
 #import "DetailViewController.h"
 
 @interface TranslationViewController ()
-@property NSString* adata;
 @property (nonatomic, strong) NSMutableArray *keyboardButtons;
 @property (nonatomic, strong) UIInputView *numberView;
-@property (nonatomic, strong) UITextField *textView;
+@property (nonatomic, strong) UITextField *textView; // textfield for additional buttons
 @property (retain, nonatomic) UISearchController *searchController;
 @end
 
 @implementation TranslationViewController
-{
-    NSArray *translations, *utka;
-    NSMutableArray *words;
-    NSMutableArray *soster;
-    CGFloat fontSize;
-    IBOutlet UITableView *tv;
-}
 
-@synthesize isSostuk, isTyvRus, searchResults;
+@synthesize isSostuk, isTyvRus, searchResults, translations, words;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    fontSize = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 18 : 24;
     isSostuk = [self.title isEqualToString:@"Сөстүк"];
     if (isSostuk) {
         [self firstSettings];
@@ -124,9 +115,9 @@
 
 
 
-#pragma mark - definitions of abstract methods of super class
-
-- (NSInteger) getNumberOfRowsInSection:(NSInteger)section {
+#pragma mark - UITableView delegate methods
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     if(self.searchController.active){
         if (searchResults.count == 0)
             for (UIView *view in self.tableView.subviews) {
@@ -134,18 +125,20 @@
                     ((UILabel *)view).text = @"Ындыг сөс чок";
             }
         return [searchResults count];
-    }else{
+    } else {
         return [translations count];
     }
 }
 
-- (CGFloat) getCellHeight {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     CGFloat size = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone ? 71 : 100;
     return isSostuk ? 71 : size;
 }
 
-- (UITableViewCell *) getCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"TableCell";
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *CellIdentifier = @"TableCell";
     TableCell *cell = (TableCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     // Configure the cell...
@@ -171,7 +164,7 @@
     return cell;
 }
 
-- (void) configure:(UIStoryboardSegue *) segue {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = nil;
         Translation *translation = nil;
@@ -190,11 +183,6 @@
         destViewController.isSostuk = isSostuk;
     }
 }
-
-
-
-
-
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {

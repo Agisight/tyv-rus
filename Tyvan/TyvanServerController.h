@@ -16,10 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSArray *searchResults;
 
 #pragma mark - abstract methods
-- (NSInteger) getNumberOfRowsInSection:(NSInteger)section;
-- (CGFloat) getCellHeight;
-- (UITableViewCell *) getCellForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (void) configure:(UIStoryboardSegue *) segue;
 - (void)keyboardWillShow:(NSNotification *)notification;
 - (void)keyboardWillHide:(NSNotification *)notification;
 

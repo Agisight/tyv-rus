@@ -68,7 +68,6 @@
                     <navigationItem key="navigationItem" title="Тыва-орус сөстүк" id="utS-Ph-Zss"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="ik7-AN-ttP" id="7HA-xD-OOp"/>
-                        <outlet property="tv" destination="h2E-yo-TSZ" id="acD-6z-EBX"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DOG-nl-28K" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -306,7 +305,6 @@
                     <navigationItem key="navigationItem" title="Тыва-орус очулдурукчу" id="YCw-xU-SX9"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="ik7-AN-ttP" id="TrQ-mv-1XX"/>
-                        <outlet property="tv" destination="cUL-tU-eV1" id="Cnv-hf-oe1"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mv8-je-OVO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -468,7 +466,6 @@
                     <navigationItem key="navigationItem" title="Русско-тувинский переводчик" id="lhn-h2-1Gr"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="ik7-AN-ttP" id="WXe-iw-ulv"/>
-                        <outlet property="tv" destination="b4R-VD-uzT" id="qFj-eQ-yot"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ydh-tB-TYq" userLabel="First Responder" sceneMemberID="firstResponder"/>

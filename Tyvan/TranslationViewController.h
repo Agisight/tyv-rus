@@ -8,5 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "TyvanServerController.h"
 @interface TranslationViewController : TyvanServerController <UISearchBarDelegate, UISearchResultsUpdating>
-
+    
+@property NSArray *translations;
+@property NSMutableArray *words;
 @end

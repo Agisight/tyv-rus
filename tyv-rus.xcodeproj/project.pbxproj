@@ -247,7 +247,7 @@
 				F41C80A818531640002AE0A3 /* Supporting Files */,
 			);
 			name = "tyv-rus";
-			path = CustomTable;
+			path = Tyvan;
 			sourceTree = "<group>";
 		};
 		F41C80A818531640002AE0A3 /* Supporting Files */ = {
@@ -281,7 +281,7 @@
 			dependencies = (
 			);
 			name = "tyv-rus";
-			productName = CustomTable;
+			productName = Tyvan;
 			productReference = F41C809E18531640002AE0A3 /* tyv-rus.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -485,8 +485,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CustomTable/tyv-rus-Prefix.pch";
-				INFOPLIST_FILE = "CustomTable/tyv-rus-Info.plist";
+				GCC_PREFIX_HEADER = "Tyvan/tyv-rus-Prefix.pch";
+				INFOPLIST_FILE = "Tyvan/tyv-rus-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ru.tyv.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "tyv-rus";
@@ -506,8 +506,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CustomTable/tyv-rus-Prefix.pch";
-				INFOPLIST_FILE = "CustomTable/tyv-rus-Info.plist";
+				GCC_PREFIX_HEADER = "Tyvan/tyv-rus-Prefix.pch";
+				INFOPLIST_FILE = "Tyvan/tyv-rus-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ru.tyv.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "tyv-rus";

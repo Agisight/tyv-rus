@@ -13,8 +13,7 @@
 
 @implementation TyvanServerController // dont worry about warnings, no need to create abstract methods, which will be rewrited in heirs
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     // Subscribe to keyboard notifications
@@ -29,35 +28,17 @@
                                                object:nil];
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+#pragma mark - handle UIKeyboard
 
-
-
-#pragma mark - UITableView delegate methods
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [self getNumberOfRowsInSection:section];
-}
-    
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [self getCellHeight];
+- (void)keyboardWillShow:(NSNotification *)notification { // define it in subclasses
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [self getCellForRowAtIndexPath:indexPath];
+- (void)keyboardWillHide:(NSNotification *)notification { // define it in subclasses
 }
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    [self configure:segue];
-}
-
-
 
 
 
