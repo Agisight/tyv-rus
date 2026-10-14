@@ -1,0 +1,6 @@
+# Copy to signing.properties in the project root and fill in local values.
+# UPLOAD_STORE_FILE is resolved relative to composeApp/.
+UPLOAD_STORE_FILE=../new-upload-key.jks
+UPLOAD_STORE_PASSWORD=replace-with-store-password
+UPLOAD_KEY_ALIAS=upload
+UPLOAD_KEY_PASSWORD=replace-with-key-password
