@@ -1,78 +1,145 @@
-@file:OptIn(InternalResourceApi::class)
-
 package ru.tuvlin.tyv_rus_android
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import kotlinx.coroutines.runBlocking
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.InternalResourceApi
-import org.jetbrains.compose.resources.readResourceBytes
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.IOException
+import java.text.Normalizer
 import java.util.Locale
 
-// Храним applicationContext. Установим в MainActivity.onCreate().
 internal object AppCtx {
     lateinit var app: Context
 }
 
-/** Копируем БД из composeResources/files в .../databases/ один раз. */
-@OptIn(ExperimentalResourceApi::class)
-private fun ensureDbCopiedOnce(dbName: String = "tyv_rus_dict.db"): String {
-    val ctx = AppCtx.app
-    val dstFile = ctx.getDatabasePath(dbName)      // .../databases/tyv_rus_dict.db
-    if (!dstFile.exists()) {
-        dstFile.parentFile?.mkdirs()
-        // readResourceBytes доступен в common/Android, не требует suspend
-        val bytes = runBlocking { readResourceBytes("files/$dbName") }
-        File(dstFile.absolutePath).outputStream().use { it.write(bytes) }
+// Increment when the bundled dictionary or its prepared search schema changes.
+internal const val DICTIONARY_REVISION = 1
+internal const val DICTIONARY_ASSET =
+    "composeResources/ru.tuvlin.tyv_rus_android/files/tyv_rus_dict.db"
+
+internal fun dictionaryFile(context: Context): File =
+    File(context.noBackupFilesDir, "dictionary/tyv_rus_dict-$DICTIONARY_REVISION.db")
+
+internal fun normalizeSearch(text: String): String =
+    Normalizer.normalize(text.trim(), Normalizer.Form.NFC).lowercase(Locale.ROOT)
+
+/** Exclusive upper bound in SQLite's Unicode binary order; wildcard characters stay literal. */
+internal fun prefixUpperBound(prefix: String): String? {
+    var end = prefix.length
+    while (end > 0) {
+        val start = prefix.offsetByCodePoints(end, -1)
+        val point = prefix.codePointAt(start)
+        if (point < Character.MAX_CODE_POINT) {
+            val next = if (point == 0xD7FF) 0xE000 else point + 1
+            return prefix.substring(0, start) + String(Character.toChars(next))
+        }
+        end = start
     }
-    return dstFile.absolutePath
+    return null
+}
+
+/** A process-wide read-only connection; initialization always happens on Dispatchers.IO. */
+private object DictionaryDatabase {
+    val db: SQLiteDatabase by lazy {
+        val context = AppCtx.app
+        val destination = dictionaryFile(context)
+        val valid = destination.exists() && runCatching {
+            SQLiteDatabase.openDatabase(destination.path, null, SQLiteDatabase.OPEN_READONLY).use {
+                it.version == DICTIONARY_REVISION &&
+                    it.rawQuery("SELECT search_key FROM dictionary LIMIT 1", null).use { c ->
+                        c.moveToFirst() && !c.isNull(0)
+                    }
+            }
+        }.getOrDefault(false)
+
+        if (!valid) {
+            check(destination.parentFile!!.isDirectory || destination.parentFile!!.mkdirs())
+            val temporary = File.createTempFile("dictionary-", ".db", destination.parentFile)
+            try {
+                context.assets.open(DICTIONARY_ASSET).use { input ->
+                    temporary.outputStream().use { output -> input.copyTo(output) }
+                }
+                prepare(temporary)
+                // Readers never see an incompletely copied/indexed database.
+                if (!temporary.renameTo(destination)) {
+                    throw IOException("Could not install the prepared dictionary")
+                }
+            } finally {
+                temporary.delete()
+            }
+        }
+        SQLiteDatabase.openDatabase(destination.path, null, SQLiteDatabase.OPEN_READONLY)
+    }
+
+    private fun prepare(file: File) {
+        SQLiteDatabase.openDatabase(file.path, null, SQLiteDatabase.OPEN_READWRITE).use { db ->
+            db.beginTransaction()
+            try {
+                db.execSQL("ALTER TABLE dictionary ADD COLUMN search_key TEXT")
+                db.compileStatement(
+                    "UPDATE dictionary SET word_phrase = ?, search_key = ? WHERE rowid = ?"
+                ).use { update ->
+                    db.rawQuery("SELECT rowid, word_phrase, html_text FROM dictionary", null).use { rows ->
+                        while (rows.moveToNext()) {
+                            val id = rows.getLong(0)
+                            var head = rows.getString(1)
+                            // The original first article has an empty heading. Its text and the
+                            // legacy word list both identify it as the conjunction "а".
+                            if (id == 1L && head.isBlank() &&
+                                rows.getString(2).lineSequence().first().trim() == "а") {
+                                head = "а"
+                            }
+                            check(head.isNotBlank()) { "Dictionary article $id has no heading" }
+                            update.bindString(1, head)
+                            update.bindString(2, normalizeSearch(head))
+                            update.bindLong(3, id)
+                            update.executeUpdateDelete()
+                        }
+                    }
+                }
+                db.execSQL("CREATE INDEX idx_dictionary_search ON dictionary(search_key)")
+                db.version = DICTIONARY_REVISION
+                db.setTransactionSuccessful()
+            } finally {
+                db.endTransaction()
+            }
+        }
+    }
 }
 
 actual class DictionaryRepository actual constructor() {
-
-    private val db: SQLiteDatabase by lazy {
-        val path = ensureDbCopiedOnce("tyv_rus_dict.db")
-        SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY)
-    }
-
-    // Кэш заголовков (индекс → head), чтобы сохранить прежнюю логику индексов
-    private val heads: List<String> by lazy {
-        db.rawQuery(
-            "SELECT head FROM entry ORDER BY lower(head) ASC", emptyArray()
-        ).use { c ->
-            val list = ArrayList<String>(c.count.coerceAtLeast(1024))
-            val idx = c.getColumnIndexOrThrow("head")
-            while (c.moveToNext()) list.add(c.getString(idx))
-            list
+    actual suspend fun size(): Int = withContext(Dispatchers.IO) {
+        DictionaryDatabase.db.rawQuery("SELECT COUNT(*) FROM dictionary", null).use {
+            it.moveToFirst()
+            it.getInt(0)
         }
     }
 
-    actual fun size(): Int = heads.size
-
-    actual fun item(i: Int): Pair<String, String> {
-        val w = heads.getOrNull(i) ?: return "" to ""
-        val html = db.rawQuery(
-            "SELECT html FROM entry WHERE head = ? LIMIT 1", arrayOf(w)
-        ).use { c -> if (c.moveToFirst()) c.getString(0) else "" }
-        return w to html
+    actual suspend fun item(id: Int): Pair<String, String> = withContext(Dispatchers.IO) {
+        DictionaryDatabase.db.rawQuery(
+            "SELECT word_phrase, html_text FROM dictionary WHERE rowid = ?",
+            arrayOf(id.toString())
+        ).use {
+            require(it.moveToFirst()) { "Unknown dictionary article: $id" }
+            it.getString(0) to it.getString(1)
+        }
     }
 
-    actual fun search(q: String): List<Pair<Int, String>> {
-        if (q.isBlank()) return heads.mapIndexed { i, w -> i to w }
-
-        val like = "${q.lowercase(Locale.ROOT)}%"   // префиксный поиск
-        val rows = db.rawQuery(
-            "SELECT head FROM entry WHERE lower(head) LIKE ? ORDER BY lower(head) ASC",
-            arrayOf(like)
-        ).use { c ->
-            val out = ArrayList<String>(minOf(c.count, 500))
-            while (c.moveToNext()) out.add(c.getString(0))
-            out
+    actual suspend fun search(q: String): List<Pair<Int, String>> = withContext(Dispatchers.IO) {
+        val key = normalizeSearch(q)
+        val upper = prefixUpperBound(key)
+        val (where, args) = when {
+            key.isEmpty() -> "" to emptyArray<String>()
+            upper == null -> " WHERE search_key >= ?" to arrayOf(key)
+            else -> " WHERE search_key >= ? AND search_key < ?" to arrayOf(key, upper)
         }
-
-        val indexOf = heads.withIndex().associate { it.value to it.index }
-        return rows.mapNotNull { h -> indexOf[h]?.let { it to h } }
+        DictionaryDatabase.db.rawQuery(
+            "SELECT rowid, word_phrase FROM dictionary$where ORDER BY search_key, rowid", args
+        ).use { cursor ->
+            buildList {
+                while (cursor.moveToNext()) add(cursor.getInt(0) to cursor.getString(1))
+            }
+        }
     }
 }

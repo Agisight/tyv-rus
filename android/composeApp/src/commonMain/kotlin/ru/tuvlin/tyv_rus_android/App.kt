@@ -13,24 +13,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.tuvlin.tyv_rus_android.ui.DetailsScreen
 import ru.tuvlin.tyv_rus_android.ui.darker
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App() {
-    val vm = remember { DictionaryViewModel() }
+    val vm: DictionaryViewModel = viewModel { DictionaryViewModel() }
     val ui by vm.state.collectAsStateWithLifecycle()
+    val homonymLabels = remember(ui.items) {
+        buildMap {
+            ui.items.groupBy { it.second }.values.filter { it.size > 1 }.forEach { articles ->
+                articles.forEachIndexed { index, article ->
+                    put(article.first, "Статья ${index + 1} из ${articles.size}")
+                }
+            }
+        }
+    }
 
     MaterialTheme {
         if (ui.selected != null) {
             // экран деталей
-            DetailsScreen(
-                title = ui.selectedWord,
-                html  = ui.selectedHtml,
-                onBack = vm::onBack,
-                onOpenWord = vm::openByHead
-            )
+            key(ui.selected) {
+                DetailsScreen(
+                    title = ui.selectedWord,
+                    html = ui.selectedHtml,
+                    onBack = vm::onBack,
+                    onOpenWord = vm::openByHead
+                )
+            }
             return@MaterialTheme
         }
 
@@ -65,6 +77,16 @@ fun App() {
                 )
 
                 Spacer(Modifier.height(8.dp))
+                if (ui.isLoading) {
+                    LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                }
+                ui.error?.let { message ->
+                    Text(message, color = MaterialTheme.colorScheme.error)
+                    TextButton(onClick = { vm.onQueryChange(ui.query) }) { Text("Повторить") }
+                }
+                if (!ui.isLoading && ui.error == null && ui.items.isEmpty()) {
+                    Text("Ничего не найдено")
+                }
 
                 val listState = rememberLazyListState(
                     initialFirstVisibleItemIndex = vm.listIndex,
@@ -95,7 +117,10 @@ fun App() {
                                         w,
                                         style = MaterialTheme.typography.titleLarge
                                     )
-                                                  },
+                                },
+                                supportingContent = homonymLabels[i]?.let { label ->
+                                    { Text(label) }
+                                },
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clickable {

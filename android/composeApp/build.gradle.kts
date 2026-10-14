@@ -36,6 +36,10 @@ kotlin {
             implementation(libs.androidx.core.ktx)
             implementation(libs.androidx.core.ktx)
         }
+        androidInstrumentedTest.dependencies {
+            implementation(libs.androidx.testExt.junit)
+            implementation("androidx.test:runner:1.7.0")
+        }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -66,6 +70,7 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 2
         versionName = "2.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     packaging {
         resources {
@@ -121,10 +126,6 @@ android {
 
     bundle { storeArchive { } }
 
-    sourceSets.getByName("main").assets.srcDirs(
-        "src/commonMain/composeResources",  // кладём common ресурсы в assets
-        "src/androidMain/composeResources"  // если когда-то добавишь платформенные
-    )
     ndkVersion = "26.3.11579264"
     buildToolsVersion = "36.0.0"
 }
