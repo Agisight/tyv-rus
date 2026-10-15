@@ -16,7 +16,7 @@ actual fun HtmlText(
     onRefClick: (String) -> Unit
 ) {
     val cs = MaterialTheme.colorScheme
-    val body = MaterialTheme.typography.titleLarge
+    val body = MaterialTheme.typography.bodyLarge
 
     AndroidView(
         modifier = modifier,

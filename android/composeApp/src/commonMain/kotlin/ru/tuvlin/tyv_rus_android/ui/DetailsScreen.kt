@@ -10,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.font.FontWeight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -21,9 +22,10 @@ fun DetailsScreen(
 ) {
     Scaffold(
         contentWindowInsets = WindowInsets.safeDrawing,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
-                title = { Text(title, maxLines = 1) },
+                title = { Text(title, maxLines = 1, fontWeight = FontWeight.SemiBold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
@@ -49,8 +51,9 @@ fun DetailsScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             Surface(
-                tonalElevation = 2.dp,
-                shape = MaterialTheme.shapes.medium,
+                tonalElevation = 0.dp,
+                color = MaterialTheme.colorScheme.surface,
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(22.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(Modifier.padding(16.dp)) {

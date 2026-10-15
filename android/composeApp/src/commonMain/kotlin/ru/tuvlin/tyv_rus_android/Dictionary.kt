@@ -1,7 +1,18 @@
 package ru.tuvlin.tyv_rus_android
 
+data class DictionaryEntry(
+    val id: Int,
+    val word: String,
+    val preview: String,
+    val examples: List<String> = emptyList()
+)
+
+enum class SearchDirection { TUVAN, RUSSIAN }
+enum class AppMode { DICTIONARY, ASK }
+
 expect class DictionaryRepository() {
     suspend fun size(): Int
-    suspend fun item(id: Int): Pair<String, String> // (head, html), identified by database row ID
-    suspend fun search(q: String): List<Pair<Int, String>> // (stable article ID, head)
+    suspend fun item(id: Int): Pair<String, String>
+    suspend fun search(q: String): List<Pair<Int, String>>
+    suspend fun lookup(q: String, russian: Boolean): List<DictionaryEntry>
 }

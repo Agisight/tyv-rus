@@ -34,3 +34,13 @@ The bundled SQLite file contains the original `dictionary(word_phrase, html_text
 Increment `DICTIONARY_REVISION` in `Dictionary.android.kt` whenever the bundled data or preparation schema changes. Each revision uses a new cache filename, so an old installed/backup database cannot override a newer dictionary. The source database is never modified at runtime. All database work runs on `Dispatchers.IO`.
 
 Run the Android database regression tests on an emulator with `./gradlew :composeApp:connectedDebugAndroidTest`.
+
+## Dictionary and questions (Android 2.1)
+
+The dictionary list shows meanings and source examples. Tuvan headings use the normalized prefix index; Russian meanings use an FTS4 Unicode index prepared locally from the original articles. Russian results show the matching meaning, accept word prefixes and treat `ё`/`е` alike. Results are capped at 120; headings retain all 16,627 articles and separate homonyms.
+
+«Спросить» parses common Russian requests for a translation, meaning or examples and returns up to four dictionary articles. It uses rules and dictionary data, not a language model or generated translations. Examples come from the source markup. Conversation history stays in memory, survives article navigation, and can be cleared.
+
+The optional Google Translate button opens an external browser with the requested text and direction. The application has no network permission, analytics or translation API dependency. Google Translate requires an internet connection and is governed by Google's privacy policy. In-app privacy information is available from the information button.
+
+Validated target: Android. The existing iOS scaffolding still requires its own dictionary reader and platform validation.
