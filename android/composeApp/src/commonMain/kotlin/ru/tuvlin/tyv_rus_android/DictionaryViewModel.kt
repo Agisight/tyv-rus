@@ -29,7 +29,7 @@ data class DictionaryReply(
     val question: String,
     val answer: String = "",
     val entries: List<DictionaryEntry> = emptyList(),
-    val examples: List<String> = emptyList(),
+    val examples: List<DictionaryExample> = emptyList(),
     val translationText: String = question,
     val russianQuery: Boolean = true,
     val isSuggestion: Boolean = false

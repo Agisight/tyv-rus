@@ -48,3 +48,5 @@ Validated target: Android. The existing iOS scaffolding still requires its own d
 Version 2.1.1 expands Russian request wording in both translation directions, supports follow-up requests such as «А примеры?» using the last matched heading, and offers explicitly labelled spelling suggestions for missing Tuvan words. Suggestions do not silently replace the requested word.
 
 Version 2.1.2 repairs misspelled request words outside quoted terms, with one-edit suggestions for short dictionary words and up to two edits for longer ones. Russian vocabulary is derived on demand from the prepared dictionary, Tuvan vocabulary from headings. Both chat and regular search label suggestions; chat uses a unique correction with a notice and keeps ambiguous alternatives separate. All spelling work runs locally off the UI thread, and fuzzy work is cancellable.
+
+Version 2.1.3 stores examples as structured Tuvan/Russian pairs derived from the original purple HTML spans. Prepared database revision 3 refreshes older plain-text example caches; the bundled source database remains unchanged. Both conversation examples and list previews label the two languages separately.

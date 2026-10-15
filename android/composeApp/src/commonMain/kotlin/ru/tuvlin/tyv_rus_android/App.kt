@@ -224,7 +224,7 @@ fun App() {
                                     Text(reply.answer, style = MaterialTheme.typography.bodyLarge)
                                     reply.examples.forEach { example ->
                                         Surface(color = MaterialTheme.colorScheme.secondaryContainer, shape = RoundedCornerShape(14.dp)) {
-                                            Text(example, Modifier.fillMaxWidth().padding(14.dp), color = MaterialTheme.colorScheme.onSecondaryContainer, style = MaterialTheme.typography.bodyLarge)
+                                            ExampleText(example, Modifier.fillMaxWidth().padding(14.dp))
                                         }
                                     }
                                     reply.entries.forEach { entry -> EntryCard(entry, "Открыть словарную статью") { vm.onSelect(entry.id) } }
@@ -274,10 +274,32 @@ private fun EntryCard(entry: DictionaryEntry, label: String? = null, onClick: ()
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(entry.word, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
                 if (entry.preview.isNotBlank()) Text(entry.preview, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                entry.examples.firstOrNull()?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.secondary, maxLines = 1, overflow = TextOverflow.Ellipsis) }
+                entry.examples.firstOrNull()?.let { ExampleText(it, compact = true) }
                 label?.let { Text(it, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary) }
             }
             Icon(Icons.AutoMirrored.Filled.ArrowForward, null, Modifier.size(16.dp).align(Alignment.CenterVertically), tint = MaterialTheme.colorScheme.onSurfaceVariant)
         }
+    }
+}
+
+@Composable
+private fun ExampleText(example: DictionaryExample, modifier: Modifier = Modifier, compact: Boolean = false) {
+    if (compact) {
+        Column(modifier, verticalArrangement = Arrangement.spacedBy(3.dp)) {
+            Text("Тыва: ${example.tuvan}", style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.secondary, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            Text("Русский: ${example.russian}", style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
+        }
+        return
+    }
+    Column(modifier, verticalArrangement = Arrangement.spacedBy(5.dp)) {
+        Text("Тыва", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.secondary)
+        Text(example.tuvan, style = if (compact) MaterialTheme.typography.bodySmall else MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurface, maxLines = if (compact) 2 else Int.MAX_VALUE, overflow = TextOverflow.Ellipsis)
+        if (!compact) HorizontalDivider(Modifier.padding(vertical = 3.dp), color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f))
+        Text("Русский", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(example.russian, style = if (compact) MaterialTheme.typography.bodySmall else MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = if (compact) 2 else Int.MAX_VALUE, overflow = TextOverflow.Ellipsis)
     }
 }

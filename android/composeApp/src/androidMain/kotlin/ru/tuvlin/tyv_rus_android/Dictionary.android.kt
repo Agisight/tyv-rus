@@ -2,6 +2,9 @@ package ru.tuvlin.tyv_rus_android
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.text.style.ForegroundColorSpan
+import org.json.JSONArray
+import org.json.JSONObject
 import androidx.core.text.HtmlCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,7 +20,7 @@ internal object AppCtx {
 }
 
 // Increment when the bundled dictionary or its prepared search schema changes.
-internal const val DICTIONARY_REVISION = 2
+internal const val DICTIONARY_REVISION = 3
 internal const val DICTIONARY_ASSET =
     "composeResources/ru.tuvlin.tyv_rus_android/files/tyv_rus_dict.db"
 
@@ -56,6 +59,48 @@ internal fun articlePlainText(html: String): String {
     } else normalized.replace(markupTag, "")
     return plain.lineSequence().map { it.replace(inlineSpace, " ").trim() }
         .filter(String::isNotEmpty).joinToString("\n")
+}
+
+/** Language boundaries come from the original purple example spans, never from spaces. */
+internal fun articleExamples(html: String, limit: Int = Int.MAX_VALUE): List<DictionaryExample> = buildList {
+    if (limit <= 0) return@buildList
+    for (line in html.lineSequence().flatMap { it.split(markupBreak).asSequence() }) {
+        if (!line.contains("#8A2BE2", ignoreCase = true)) continue
+        val text = HtmlCompat.fromHtml(line, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        val spans = text.getSpans(0, text.length, ForegroundColorSpan::class.java)
+            .filter { it.foregroundColor and 0xFFFFFF == 0x8A2BE2 }
+            .map { text.getSpanStart(it) until text.getSpanEnd(it) }
+            .filter { !it.isEmpty() }.sortedBy { it.first }
+        val groups = mutableListOf<IntRange>()
+        for (span in spans) {
+            val previous = groups.lastOrNull()
+            if (previous != null && (span.first <= previous.last + 1 ||
+                    text.subSequence(previous.last + 1, span.first).isBlank())) {
+                groups[groups.lastIndex] = previous.first..maxOf(previous.last, span.last)
+            } else groups.add(span)
+        }
+        for ((index, span) in groups.withIndex()) {
+            val tuvan = text.subSequence(span.first, span.last + 1).toString().replace(inlineSpace, " ").trim()
+            val end = groups.getOrNull(index + 1)?.first ?: text.length
+            val russian = text.subSequence(span.last + 1, end).toString().replace(inlineSpace, " ").trim()
+            if (tuvan.isNotEmpty() && russian.isNotEmpty()) {
+                add(DictionaryExample(tuvan, russian))
+                if (size >= limit) return@buildList
+            }
+        }
+    }
+}
+
+private fun encodeExamples(examples: List<DictionaryExample>): String = JSONArray().apply {
+    examples.forEach { put(JSONObject().put("tyv", it.tuvan).put("ru", it.russian)) }
+}.toString()
+
+private fun decodeExamples(json: String): List<DictionaryExample> {
+    val array = JSONArray(json)
+    return List(array.length()) { index ->
+        val item = array.getJSONObject(index)
+        DictionaryExample(item.getString("tyv"), item.getString("ru"))
+    }
 }
 
 /** A process-wide read-only connection; initialization always happens on Dispatchers.IO. */
@@ -137,12 +182,9 @@ private object DictionaryDatabase {
                             val preview = lines.firstOrNull {
                                 it != head && !it.matches(metadataLine)
                             }.orEmpty().take(240)
-                            val examples = html.lineSequence()
-                                .filter { it.contains("#8A2BE2", ignoreCase = true) }
-                                .map(::articlePlainText).map(String::trim).filter(String::isNotEmpty)
-                                .take(3).joinToString("\n")
+                            val examples = articleExamples(html, limit = 3)
                             update.bindString(3, preview)
-                            update.bindString(4, examples)
+                            update.bindString(4, encodeExamples(examples))
                             update.bindString(5, normalizeSearch(lines.joinToString(" ")).replace('ё', 'е'))
                             update.bindLong(6, id)
                             update.executeUpdateDelete()
@@ -227,7 +269,7 @@ actual class DictionaryRepository actual constructor() {
                         tokens.all { token -> words.any { it.startsWith(token) } }
                     }?.take(240) ?: cursor.getString(2) else cursor.getString(2)
                     add(DictionaryEntry(cursor.getInt(0), cursor.getString(1), preview,
-                        cursor.getString(3).lines().filter(String::isNotBlank)))
+                        decodeExamples(cursor.getString(3))))
                 }
             }
         }

@@ -1,10 +1,12 @@
 package ru.tuvlin.tyv_rus_android
 
+data class DictionaryExample(val tuvan: String, val russian: String)
+
 data class DictionaryEntry(
     val id: Int,
     val word: String,
     val preview: String,
-    val examples: List<String> = emptyList()
+    val examples: List<DictionaryExample> = emptyList()
 )
 
 data class SpellingSuggestion(val query: String, val entries: List<DictionaryEntry>)

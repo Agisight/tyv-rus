@@ -28,7 +28,7 @@ class DictionaryAssistantTest {
         assertTrue(entries.first().preview.contains("медведь"))
         val bear = entries.first { it.word == "адыг" }
         assertTrue(bear.preview.contains("медведь"))
-        assertTrue(bear.examples.any { it.contains("медвежонок") })
+        assertTrue(bear.examples.any { it.russian.contains("медвежонок") })
         assertEquals(entries, DictionaryRepository().lookup("МЕДВЕДЬ", true))
         assertTrue(DictionaryRepository().lookup("медвед", true).any { it.word == "адыг" })
     }
@@ -118,7 +118,7 @@ class DictionaryAssistantTest {
             assertTrue(first.answer.contains("по-русски"))
             scenario.onActivity { vm.ask("А примеры?") }
             val examples = withTimeout(15000) { vm.assistant.first { it.replies.size == 2 && !it.isLoading } }.replies.last()
-            assertTrue(examples.examples.any { it.contains("ак чигир") })
+            assertTrue(examples.examples.any { it.tuvan.contains("ак чигир") })
             scenario.onActivity { vm.ask("Как по-русски чигри?") }
             val hint = withTimeout(15000) { vm.assistant.first { it.replies.size == 3 && !it.isLoading } }.replies.last()
             assertTrue(hint.answer.contains("Возможно"))
@@ -196,6 +196,23 @@ class DictionaryAssistantTest {
             assertTrue(followUp.examples.isEmpty())
         }
     }
+    @Test fun examplesKeepTuvanAndRussianInSeparateFields() = runBlocking {
+        val examples = DictionaryRepository().lookup("таваар", false).single { it.word == "таваар" }.examples
+        assertEquals(listOf(
+            DictionaryExample("таваар кижи", "медлительный человек"),
+            DictionaryExample("таваар чуртталга", "спокойная жизнь"),
+            DictionaryExample("таваар удуур", "спать спокойно")
+        ), examples)
+        val bear = DictionaryRepository().lookup("медведь", true).first { it.word == "адыг" }
+        assertEquals(DictionaryExample("адыг оглу", "медвежонок"), bear.examples.first())
+    }
+    @Test fun exampleParsingKeepsNestedNotesAndSeparatesMultiplePairs() {
+        val html = "<font color=\"#8A2BE2\">далган чигир</font> <i><font color=\"#00FF99\">уст.</font></i> <font color=\"#808080\">печенье</font>" +
+            "</br><font color=\"#8A2BE2\">чук чигир</font> <font color=\"#808080\">карамель</font>"
+        assertEquals(listOf(DictionaryExample("далган чигир", "уст. печенье"), DictionaryExample("чук чигир", "карамель")), articleExamples(html))
+        assertTrue(articleExamples("<font color=\"#8A2BE2\">без перевода</font>").isEmpty())
+        assertTrue(articleExamples("обычное определение").isEmpty())
+    }
     @Test fun externalTranslateUrlEncodesTheTextAndKeepsTheDirection() {
         val ru = Uri.parse(googleTranslateUrl("медведь & друг?", true))
         assertEquals("translate.google.com", ru.host)
@@ -219,7 +236,7 @@ class DictionaryAssistantTest {
             assertTrue(first.russianQuery)
             scenario.onActivity { vm.ask("Покажи примеры со словом таваар") }
             val second = withTimeout(15000) { vm.assistant.first { it.replies.size == 2 && !it.isLoading } }.replies.last()
-            assertTrue(second.examples.any { it.contains("таваар кижи") && it.contains("медлительный человек") })
+            assertTrue(second.examples.any { it.tuvan.contains("таваар кижи") && it.russian.contains("медлительный человек") })
             assertFalse(second.russianQuery)
             scenario.onActivity { vm.onSelect(second.entries.first().id) }
             withTimeout(15000) { vm.state.first { it.selected != null } }
