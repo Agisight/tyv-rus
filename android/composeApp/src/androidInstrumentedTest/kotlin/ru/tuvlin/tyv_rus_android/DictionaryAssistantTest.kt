@@ -73,6 +73,58 @@ class DictionaryAssistantTest {
         assertEquals(QuestionKind.EXAMPLES, examples.kind)
         assertNull(parseDictionaryQuestion("Напиши сочинение о природе Тувы"))
     }
+    @Test fun flexibleQuestionsSupportBothDirectionsAndWordOrder() {
+        val russian = listOf(
+            "Как будет по-русски 'чигир'?", "Как по-русски чигир?", "Как чигир переводится на русский?",
+            "Переведи чигир на русский язык", "Подскажи, как будет по-русски чигир", "чигир по-русски",
+            "Пожалуйста, переведи слово «чигир» на русский", "Что означает слово чигир?", "Что такое чигир?",
+            "Объясни мне слово чигир", "чигир что значит?"
+        )
+        for (q in russian) {
+            val plan = parseDictionaryQuestion(q)
+            assertNotNull(q, plan)
+            assertEquals(q, "чигир", plan!!.query)
+            assertEquals(q, false, plan.russian)
+        }
+        for (q in listOf("Как будет медведь по-тувински?", "Переведи слово медведь на тувинский", "медведь на тувинском языке", "Скажи, как сказать по-тувински медведь")) {
+            val plan = parseDictionaryQuestion(q)!!
+            assertEquals(q, "медведь", plan.query)
+            assertEquals(q, true, plan.russian)
+        }
+        assertNull(parseDictionaryQuestion("Напиши сочинение о природе Тувы"))
+    }
+    @Test fun followUpExamplesReuseThePreviousWordAndSpellingHintsStayConservative() {
+        val previous = DictionaryQuestion("чигир", false, QuestionKind.SEARCH)
+        for (q in listOf("А примеры?", "Покажи примеры", "А ещё примеры?")) {
+            val plan = parseDictionaryQuestion(q, previous)!!
+            assertEquals(q, "чигир", plan.query)
+            assertEquals(q, QuestionKind.EXAMPLES, plan.kind)
+        }
+        assertEquals(1, spellingDistance("чигри", "чигир"))
+        assertEquals(1, spellingDistance("чигирь", "чигир"))
+        assertTrue(spellingDistance("медведь", "чигир") > 2)
+    }
+    @Test fun russianTranslationFromTheScreenshotAndFollowUpExamplesWork() = runBlocking {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            lateinit var vm: DictionaryViewModel
+            scenario.onActivity {
+                vm = ViewModelProvider(it)[DictionaryViewModel::class.java]
+                vm.ask("Как будет по-русски 'чигир'?")
+            }
+            val first = withTimeout(15000) { vm.assistant.first { it.replies.size == 1 && !it.isLoading } }.replies.single()
+            assertFalse(first.russianQuery)
+            assertEquals("чигир", first.entries.single().word)
+            assertTrue(first.entries.single().preview.contains("сахар"))
+            assertTrue(first.answer.contains("по-русски"))
+            scenario.onActivity { vm.ask("А примеры?") }
+            val examples = withTimeout(15000) { vm.assistant.first { it.replies.size == 2 && !it.isLoading } }.replies.last()
+            assertTrue(examples.examples.any { it.contains("ак чигир") })
+            scenario.onActivity { vm.ask("Как по-русски чигри?") }
+            val hint = withTimeout(15000) { vm.assistant.first { it.replies.size == 3 && !it.isLoading } }.replies.last()
+            assertTrue(hint.answer.contains("Возможно"))
+            assertTrue(hint.entries.any { it.word == "чигир" })
+        }
+    }
     @Test fun externalTranslateUrlEncodesTheTextAndKeepsTheDirection() {
         val ru = Uri.parse(googleTranslateUrl("медведь & друг?", true))
         assertEquals("translate.google.com", ru.host)

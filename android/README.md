@@ -44,3 +44,5 @@ The dictionary list shows meanings and source examples. Tuvan headings use the n
 The optional Google Translate button opens an external browser with the requested text and direction. The application has no network permission, analytics or translation API dependency. Google Translate requires an internet connection and is governed by Google's privacy policy. In-app privacy information is available from the information button.
 
 Validated target: Android. The existing iOS scaffolding still requires its own dictionary reader and platform validation.
+
+Version 2.1.1 expands Russian request wording in both translation directions, supports follow-up requests such as «А примеры?» using the last matched heading, and offers explicitly labelled spelling suggestions for missing Tuvan words. Suggestions do not silently replace the requested word.

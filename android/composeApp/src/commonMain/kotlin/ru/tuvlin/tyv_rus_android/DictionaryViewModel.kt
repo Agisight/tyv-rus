@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -75,9 +77,11 @@ class DictionaryViewModel(private val repo: DictionaryRepository = DictionaryRep
         _assistant.update { it.copy(replies = it.replies + DictionaryReply(id, value), isLoading = true) }
         questionJob = viewModelScope.launch {
             try {
-                val plan = parseDictionaryQuestion(value)
+                val previous = _assistant.value.replies.dropLast(1).lastOrNull { it.entries.isNotEmpty() }
+                val context = previous?.let { DictionaryQuestion(it.entries.first().word, false, QuestionKind.SEARCH) }
+                val plan = parseDictionaryQuestion(value, context)
                 var russian = plan?.russian ?: true
-                val entries = when (plan?.russian) {
+                var entries = when (plan?.russian) {
                     true -> repo.lookup(plan.query, true)
                     false -> repo.lookup(plan.query, false)
                     null -> if (plan == null) emptyList() else {
@@ -88,13 +92,27 @@ class DictionaryViewModel(private val repo: DictionaryRepository = DictionaryRep
                     val exact = if (!russian && plan != null) matches.filter { it.word.equals(plan.query, ignoreCase = true) } else emptyList()
                     (exact.ifEmpty { matches }).take(4)
                 }
-                val examples = if (plan?.kind == QuestionKind.EXAMPLES) entries.flatMap { it.examples }.distinct().take(4) else emptyList()
+                var spellingHint = false
+                if (entries.isEmpty() && !russian && plan != null && plan.query.length >= 4 && ' ' !in plan.query) {
+                    val all = repo.lookup("", false)
+                    entries = withContext(Dispatchers.Default) {
+                        val query = plan.query.lowercase()
+                        val limit = if (query.length > 7) 2 else 1
+                        all.asSequence().filter { kotlin.math.abs(it.word.length - query.length) <= limit }
+                            .map { it to spellingDistance(query, it.word.lowercase()) }
+                            .filter { it.second <= limit }.sortedBy { it.second }.take(4).map { it.first }.toList()
+                    }
+                    spellingHint = entries.isNotEmpty()
+                }
+                val examples = if (!spellingHint && plan?.kind == QuestionKind.EXAMPLES) entries.flatMap { it.examples }.distinct().take(4) else emptyList()
                 val answer = when {
                     plan == null -> "Попробуйте спросить: «Что означает таваар?», «Как по-тувински медведь?» или «Покажи примеры со словом таваар». Я ищу по словарю и не составляю произвольные переводы фраз."
+                    spellingHint -> "Точного совпадения для «${plan!!.query}» нет. Возможно, вы имели в виду одно из этих слов?"
                     entries.isEmpty() -> "По запросу «${plan.query}» ничего не нашлось. Попробуйте начальную форму слова или более короткий запрос."
                     plan.kind == QuestionKind.EXAMPLES && examples.isEmpty() -> "Для «${plan.query}» нашлись статьи, но отдельных примеров в них нет. Можно открыть полное значение."
                     plan.kind == QuestionKind.EXAMPLES -> "Примеры из словаря для «${plan.query}»:"
-                    plan.kind == QuestionKind.TRANSLATION -> "Вот что нашлось по русскому запросу «${plan.query}». Выберите подходящее значение:"
+                    plan.kind == QuestionKind.TRANSLATION && !russian -> "«${plan.query}» по-русски:"
+                    plan.kind == QuestionKind.TRANSLATION -> "Тувинские варианты для «${plan.query}»:"
                     else -> "Нашлись словарные статьи для «${plan.query}»:"
                 }
                 val reply = DictionaryReply(id, value, answer, entries, examples, plan?.query ?: value, russian)
