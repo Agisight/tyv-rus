@@ -65,7 +65,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "ru.tuvlin.tyv_rus_android"
+        applicationId = "ru.tyv.sostuk"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 3

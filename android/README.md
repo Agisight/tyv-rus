@@ -15,6 +15,12 @@ This is a Kotlin Multiplatform project targeting Android, iOS.
 
 Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
 
+## Android publication
+
+The Android application ID is `ru.tyv.sostuk`. Publish it as a new Google Play app with Play App Signing enabled. It is a separate installation from the legacy `ru.tuvlin.tyv_rus_android` app; users must install it separately.
+
+The shared Kotlin source namespace and Compose resource package remain `ru.tuvlin.tyv_rus_android`; they do not determine the Android application ID.
+
 ## Android release signing
 
 Copy `signing.properties.example` to `signing.properties` in the project root and fill in your local upload key settings. Keep the keystore and passwords outside Git. The same `UPLOAD_*` settings can also be supplied through Gradle properties or environment variables.
