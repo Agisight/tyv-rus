@@ -17,6 +17,8 @@ Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-mu
 
 ## Android publication
 
+The first public Android release is **1.0 (versionCode 1)**. Earlier 2.x numbers below refer to unpublished development iterations.
+
 The Android application ID is `ru.tyv.sostuk`. Publish it as a new Google Play app with Play App Signing enabled. It is a separate installation from the legacy `ru.tuvlin.tyv_rus_android` app; users must install it separately.
 
 The shared Kotlin source namespace and Compose resource package remain `ru.tuvlin.tyv_rus_android`; they do not determine the Android application ID.

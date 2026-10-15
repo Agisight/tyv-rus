@@ -1,17 +1,17 @@
 {
   "prepared_on": "2026-10-15",
   "application_id": "ru.tyv.sostuk",
-  "version_name": "2.1.5",
-  "version_code": 10,
+  "version_name": "1.0",
+  "version_code": 1,
   "min_sdk": 24,
   "target_sdk": 36,
   "aab": {
-    "file": "sostuk-2.1.5-api36.aab",
-    "bytes": 4435246,
-    "sha256": "430c21a5b59f647ccba60a296984e4494b35427aa4bcdef6b29c3898915426cf",
+    "file": "sostuk-1.0-api36.aab",
+    "bytes": 4435239,
+    "sha256": "2544675409df427c16a0c7b86c995d2a1f2e606cf2cd97bff93e7e5171eeaf04",
     "signed_payload_entries_verified": 139
   },
-  "existing_instrumentation_tests_passed": 34,
+  "previous_same_code_instrumentation_tests_passed": 34,
   "phone_screenshots": 7,
   "tablet_screenshots": 4,
   "images": [
