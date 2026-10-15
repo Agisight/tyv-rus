@@ -26,3 +26,7 @@ captures
 *.aab
 *.apk
 /composeApp/release/
+
+# Generated publication kits (sources are in publishing/)
+/release-artifacts/google-play-*/
+/release-artifacts/google-play-*.zip

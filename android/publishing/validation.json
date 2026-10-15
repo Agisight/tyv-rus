@@ -1,0 +1,130 @@
+{
+  "prepared_on": "2026-10-15",
+  "application_id": "ru.tyv.sostuk",
+  "version_name": "2.1.5",
+  "version_code": 10,
+  "min_sdk": 24,
+  "target_sdk": 36,
+  "aab": {
+    "file": "sostuk-2.1.5-api36.aab",
+    "bytes": 4435246,
+    "sha256": "430c21a5b59f647ccba60a296984e4494b35427aa4bcdef6b29c3898915426cf",
+    "signed_payload_entries_verified": 139
+  },
+  "existing_instrumentation_tests_passed": 34,
+  "phone_screenshots": 7,
+  "tablet_screenshots": 4,
+  "images": [
+    {
+      "file": "phone-screenshots/01-tuvan-search.png",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGB",
+      "bytes": 233428
+    },
+    {
+      "file": "phone-screenshots/02-russian-search.png",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGB",
+      "bytes": 253369
+    },
+    {
+      "file": "phone-screenshots/03-examples.png",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGB",
+      "bytes": 222635
+    },
+    {
+      "file": "phone-screenshots/04-question.png",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGB",
+      "bytes": 264806
+    },
+    {
+      "file": "phone-screenshots/05-typo.png",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGB",
+      "bytes": 267709
+    },
+    {
+      "file": "phone-screenshots/06-article.png",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGB",
+      "bytes": 174955
+    },
+    {
+      "file": "phone-screenshots/07-info.png",
+      "width": 1080,
+      "height": 1920,
+      "mode": "RGB",
+      "bytes": 360200
+    },
+    {
+      "file": "tablet-screenshots/01-tuvan-search.png",
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGB",
+      "bytes": 89992
+    },
+    {
+      "file": "tablet-screenshots/02-russian-search.png",
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGB",
+      "bytes": 87532
+    },
+    {
+      "file": "tablet-screenshots/03-examples.png",
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGB",
+      "bytes": 74547
+    },
+    {
+      "file": "tablet-screenshots/04-question.png",
+      "width": 1920,
+      "height": 1080,
+      "mode": "RGB",
+      "bytes": 95798
+    },
+    {
+      "file": "graphics/feature-graphic-1024x500.png",
+      "width": 1024,
+      "height": 500,
+      "mode": "RGB",
+      "bytes": 202359
+    },
+    {
+      "file": "graphics/icon-512.png",
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA",
+      "bytes": 17512
+    }
+  ],
+  "listing_lengths": {
+    "title.txt": {
+      "characters": 16,
+      "limit": 30
+    },
+    "short-description.txt": {
+      "characters": 72,
+      "limit": 80
+    },
+    "full-description.txt": {
+      "characters": 1495,
+      "limit": 4000
+    },
+    "release-notes.txt": {
+      "characters": 303,
+      "limit": 500
+    }
+  },
+  "privacy_public_url": null,
+  "publication_status": "prepared locally; not submitted to Google Play"
+}
