@@ -3,6 +3,7 @@ package ru.tuvlin.tyv_rus_android
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.text.style.ForegroundColorSpan
+import android.text.Spanned
 import org.json.JSONArray
 import org.json.JSONObject
 import androidx.core.text.HtmlCompat
@@ -67,28 +68,33 @@ internal fun articleExamples(html: String, limit: Int = Int.MAX_VALUE): List<Dic
     for (line in html.lineSequence().flatMap { it.split(markupBreak).asSequence() }) {
         if (!line.contains("#8A2BE2", ignoreCase = true)) continue
         val text = HtmlCompat.fromHtml(line, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        val spans = text.getSpans(0, text.length, ForegroundColorSpan::class.java)
-            .filter { it.foregroundColor and 0xFFFFFF == 0x8A2BE2 }
-            .map { text.getSpanStart(it) until text.getSpanEnd(it) }
-            .filter { !it.isEmpty() }.sortedBy { it.first }
-        val groups = mutableListOf<IntRange>()
-        for (span in spans) {
-            val previous = groups.lastOrNull()
-            if (previous != null && (span.first <= previous.last + 1 ||
-                    text.subSequence(previous.last + 1, span.first).isBlank())) {
-                groups[groups.lastIndex] = previous.first..maxOf(previous.last, span.last)
-            } else groups.add(span)
-        }
-        for ((index, span) in groups.withIndex()) {
-            val tuvan = text.subSequence(span.first, span.last + 1).toString().replace(inlineSpace, " ").trim()
-            val end = groups.getOrNull(index + 1)?.first ?: text.length
-            val russian = text.subSequence(span.last + 1, end).toString().replace(inlineSpace, " ").trim()
-            if (tuvan.isNotEmpty() && russian.isNotEmpty()) {
-                add(DictionaryExample(tuvan, russian))
-                if (size >= limit) return@buildList
-            }
+        for (example in styledDictionaryExamples(text)) {
+            add(example)
+            if (size >= limit) return@buildList
         }
     }
+}
+
+internal fun styledDictionaryExamples(text: Spanned): List<DictionaryExample> = buildList {
+    val spans = text.getSpans(0, text.length, ForegroundColorSpan::class.java)
+        .filter { it.foregroundColor and 0xFFFFFF == 0x8A2BE2 }
+        .map { text.getSpanStart(it) until text.getSpanEnd(it) }
+        .filter { !it.isEmpty() }.sortedBy { it.first }
+    val groups = mutableListOf<IntRange>()
+    for (span in spans) {
+        val previous = groups.lastOrNull()
+        if (previous != null && (span.first <= previous.last + 1 ||
+                text.subSequence(previous.last + 1, span.first).isBlank())) {
+            groups[groups.lastIndex] = previous.first..maxOf(previous.last, span.last)
+        } else groups.add(span)
+    }
+    for ((index, span) in groups.withIndex()) {
+        val tuvan = text.subSequence(span.first, span.last + 1).toString().replace(inlineSpace, " ").trim()
+        val end = groups.getOrNull(index + 1)?.first ?: text.length
+        val russian = text.subSequence(span.last + 1, end).toString().replace(inlineSpace, " ").trim()
+        if (tuvan.isNotEmpty() && russian.isNotEmpty()) add(DictionaryExample(tuvan, russian))
+    }
+
 }
 
 private fun encodeExamples(examples: List<DictionaryExample>): String = JSONArray().apply {

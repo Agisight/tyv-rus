@@ -1,6 +1,7 @@
 package ru.tuvlin.tyv_rus_android
 
 import android.os.Bundle
+import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -15,8 +16,15 @@ class MainActivity : ComponentActivity() {
         AppCtx.app = applicationContext
 
         setContent {
-            App()
+            App(
+                onShareArticle = { title, html -> shareDictionary(articleShareContent(title, html)) },
+                onShareReply = { reply -> shareDictionary(replyShareContent(reply)) }
+            )
         }
+    }
+
+    private fun shareDictionary(content: DictionaryShareText) {
+        startActivity(Intent.createChooser(dictionaryShareIntent(content), "Поделиться"))
     }
 }
 

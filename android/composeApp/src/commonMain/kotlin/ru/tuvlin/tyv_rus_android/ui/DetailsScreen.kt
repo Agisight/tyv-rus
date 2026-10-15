@@ -2,6 +2,7 @@ package ru.tuvlin.tyv_rus_android.ui
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Share
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -18,7 +19,8 @@ fun DetailsScreen(
     title: String,
     html: String,
     onBack: () -> Unit,
-    onOpenWord: (String) -> Unit = {}
+    onOpenWord: (String) -> Unit = {},
+    onShare: (() -> Unit)? = null
 ) {
     Scaffold(
         contentWindowInsets = WindowInsets.safeDrawing,
@@ -26,6 +28,11 @@ fun DetailsScreen(
         topBar = {
             TopAppBar(
                 title = { Text(title, maxLines = 1, fontWeight = FontWeight.SemiBold) },
+                actions = {
+                    if (onShare != null) IconButton(onClick = onShare) {
+                        Icon(Icons.Default.Share, "Поделиться статьёй")
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(

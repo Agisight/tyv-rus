@@ -52,7 +52,10 @@ private val DarkDictionaryColors = darkColorScheme(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun App() {
+fun App(
+    onShareArticle: ((String, String) -> Unit)? = null,
+    onShareReply: ((DictionaryReply) -> Unit)? = null
+) {
     val vm: DictionaryViewModel = viewModel { DictionaryViewModel() }
     val ui by vm.state.collectAsStateWithLifecycle()
     val assistant by vm.assistant.collectAsStateWithLifecycle()
@@ -76,7 +79,8 @@ fun App() {
     MaterialTheme(colorScheme = if (isSystemInDarkTheme()) DarkDictionaryColors else LightDictionaryColors) {
         DictionaryBackHandler(ui.selected != null) { vm.onBack() }
         if (ui.selected != null) {
-            DetailsScreen(ui.selectedWord, ui.selectedHtml, vm::onBack, vm::openByHead)
+            DetailsScreen(ui.selectedWord, ui.selectedHtml, vm::onBack, vm::openByHead,
+                onShare = onShareArticle?.let { share -> { share(ui.selectedWord, ui.selectedHtml) } })
             return@MaterialTheme
         }
         Scaffold(
@@ -216,7 +220,12 @@ fun App() {
                                 }
                                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(7.dp)) {
                                     Icon(Icons.Default.MenuBook, null, Modifier.size(17.dp), tint = MaterialTheme.colorScheme.secondary)
-                                    Text("Сөстүк · по словарю", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    Text("Сөстүк · по словарю", modifier = Modifier.weight(1f), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    if (onShareReply != null && reply.answer.isNotBlank()) {
+                                        IconButton(onClick = { onShareReply(reply) }) {
+                                            Icon(Icons.Default.Share, "Поделиться ответом", tint = MaterialTheme.colorScheme.primary)
+                                        }
+                                    }
                                 }
                                 if (reply.answer.isEmpty()) {
                                     LinearProgressIndicator(Modifier.width(120.dp))
