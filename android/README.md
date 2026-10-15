@@ -52,3 +52,5 @@ Version 2.1.2 repairs misspelled request words outside quoted terms, with one-ed
 Version 2.1.3 stores examples as structured Tuvan/Russian pairs derived from the original purple HTML spans. Prepared database revision 3 refreshes older plain-text example caches; the bundled source database remains unchanged. Both conversation examples and list previews label the two languages separately.
 
 Version 2.1.4 adds Android share buttons to full articles and individual dictionary replies. The system chooser receives readable plain text with headings, meaning breaks and labelled Tuvan/Russian pairs, plus escaped HTML for apps that support rich text. Full-article exports retain all examples, including those omitted from list previews. Nothing is sent until the user chooses an action in the Android share sheet.
+
+Version 2.1.5 removes the main branding bar and introductory banner. A bottom «Инфо» button opens a full-screen modal with a close button, branded introduction, usage guide, privacy information and contact details. Dismissing it preserves the current search, conversation and draft. Clear conversation is now next to the chat input.
