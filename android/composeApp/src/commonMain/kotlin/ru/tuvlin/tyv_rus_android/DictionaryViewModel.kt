@@ -4,8 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +20,7 @@ data class UiState(
     val selectedWord: String = "",
     val selectedHtml: String = "",
     val isLoading: Boolean = true,
+    val spellingHint: String? = null,
     val error: String? = null
 )
 
@@ -32,7 +31,8 @@ data class DictionaryReply(
     val entries: List<DictionaryEntry> = emptyList(),
     val examples: List<String> = emptyList(),
     val translationText: String = question,
-    val russianQuery: Boolean = true
+    val russianQuery: Boolean = true,
+    val isSuggestion: Boolean = false
 )
 data class AssistantState(val replies: List<DictionaryReply> = emptyList(), val isLoading: Boolean = false)
 
@@ -59,12 +59,16 @@ class DictionaryViewModel(private val repo: DictionaryRepository = DictionaryRep
     fun onQueryChange(newQuery: String) {
         searchJob?.cancel()
         val direction = _state.value.direction
-        _state.update { it.copy(query = newQuery, isLoading = true, error = null) }
+        _state.update { it.copy(query = newQuery, isLoading = true, error = null, spellingHint = null) }
         searchJob = viewModelScope.launch {
             try {
                 if (newQuery.isNotBlank()) delay(120)
-                val entries = repo.lookup(newQuery, direction == SearchDirection.RUSSIAN)
-                _state.update { it.copy(entries = entries, items = entries.map { e -> e.id to e.word }, isLoading = false) }
+                val russian = direction == SearchDirection.RUSSIAN
+                val exact = repo.lookup(newQuery, russian)
+                val suggestions = if (exact.isEmpty()) repo.suggest(newQuery, russian) else emptyList()
+                val entries = if (suggestions.isEmpty()) exact else suggestions.flatMap { it.entries }.distinctBy { it.id }.take(12)
+                val hint = suggestions.takeIf { it.isNotEmpty() }?.joinToString(prefix = "Возможно: ", separator = ", ") { "«${it.query}»" }
+                _state.update { it.copy(entries = entries, items = entries.map { e -> e.id to e.word }, isLoading = false, spellingHint = hint) }
             } catch (cancelled: CancellationException) { throw cancelled }
             catch (_: Exception) { _state.update { it.copy(isLoading = false, error = "Не удалось загрузить словарь.") } }
         }
@@ -77,7 +81,7 @@ class DictionaryViewModel(private val repo: DictionaryRepository = DictionaryRep
         _assistant.update { it.copy(replies = it.replies + DictionaryReply(id, value), isLoading = true) }
         questionJob = viewModelScope.launch {
             try {
-                val previous = _assistant.value.replies.dropLast(1).lastOrNull { it.entries.isNotEmpty() }
+                val previous = _assistant.value.replies.dropLast(1).lastOrNull()?.takeIf { it.entries.isNotEmpty() && !it.isSuggestion }
                 val context = previous?.let { DictionaryQuestion(it.entries.first().word, false, QuestionKind.SEARCH) }
                 val plan = parseDictionaryQuestion(value, context)
                 var russian = plan?.russian ?: true
@@ -92,30 +96,35 @@ class DictionaryViewModel(private val repo: DictionaryRepository = DictionaryRep
                     val exact = if (!russian && plan != null) matches.filter { it.word.equals(plan.query, ignoreCase = true) } else emptyList()
                     (exact.ifEmpty { matches }).take(4)
                 }
-                var spellingHint = false
-                if (entries.isEmpty() && !russian && plan != null && plan.query.length >= 4 && ' ' !in plan.query) {
-                    val all = repo.lookup("", false)
-                    entries = withContext(Dispatchers.Default) {
-                        val query = plan.query.lowercase()
-                        val limit = if (query.length > 7) 2 else 1
-                        all.asSequence().filter { kotlin.math.abs(it.word.length - query.length) <= limit }
-                            .map { it to spellingDistance(query, it.word.lowercase()) }
-                            .filter { it.second <= limit }.sortedBy { it.second }.take(4).map { it.first }.toList()
+                val suggestions = if (entries.isEmpty() && plan != null) {
+                    when (plan.russian) {
+                        true -> repo.suggest(plan.query, true)
+                        false -> repo.suggest(plan.query, false)
+                        null -> {
+                            val tuvan = repo.suggest(plan.query, false)
+                            if (tuvan.isNotEmpty()) { russian = false; tuvan }
+                            else { russian = true; repo.suggest(plan.query, true) }
+                        }
                     }
-                    spellingHint = entries.isNotEmpty()
-                }
-                val examples = if (!spellingHint && plan?.kind == QuestionKind.EXAMPLES) entries.flatMap { it.examples }.distinct().take(4) else emptyList()
+                } else emptyList()
+                val ambiguous = suggestions.size > 1
+                val corrected = suggestions.singleOrNull()?.query
+                if (suggestions.isNotEmpty()) entries = suggestions.flatMap { it.entries }.distinctBy { it.id }.take(8)
+                val resolvedQuery = corrected ?: plan?.query.orEmpty()
+                val examples = if (!ambiguous && plan?.kind == QuestionKind.EXAMPLES) entries.flatMap { it.examples }.distinct().take(4) else emptyList()
                 val answer = when {
                     plan == null -> "Попробуйте спросить: «Что означает таваар?», «Как по-тувински медведь?» или «Покажи примеры со словом таваар». Я ищу по словарю и не составляю произвольные переводы фраз."
-                    spellingHint -> "Точного совпадения для «${plan!!.query}» нет. Возможно, вы имели в виду одно из этих слов?"
+                    ambiguous -> "Точного совпадения для «${plan!!.query}» нет. Возможно, вы имели в виду: ${suggestions.joinToString { "«${it.query}»" }}. Выберите подходящую статью."
                     entries.isEmpty() -> "По запросу «${plan.query}» ничего не нашлось. Попробуйте начальную форму слова или более короткий запрос."
-                    plan.kind == QuestionKind.EXAMPLES && examples.isEmpty() -> "Для «${plan.query}» нашлись статьи, но отдельных примеров в них нет. Можно открыть полное значение."
-                    plan.kind == QuestionKind.EXAMPLES -> "Примеры из словаря для «${plan.query}»:"
-                    plan.kind == QuestionKind.TRANSLATION && !russian -> "«${plan.query}» по-русски:"
-                    plan.kind == QuestionKind.TRANSLATION -> "Тувинские варианты для «${plan.query}»:"
-                    else -> "Нашлись словарные статьи для «${plan.query}»:"
+                    plan.kind == QuestionKind.EXAMPLES && examples.isEmpty() -> "Для «$resolvedQuery» нашлись статьи, но отдельных примеров в них нет. Можно открыть полное значение."
+                    plan.kind == QuestionKind.EXAMPLES -> "Примеры из словаря для «$resolvedQuery»:"
+                    plan.kind == QuestionKind.TRANSLATION && !russian -> "«$resolvedQuery» по-русски:"
+                    plan.kind == QuestionKind.TRANSLATION -> "Тувинские варианты для «$resolvedQuery»:"
+                    else -> "Нашлись словарные статьи для «$resolvedQuery»:"
                 }
-                val reply = DictionaryReply(id, value, answer, entries, examples, plan?.query ?: value, russian)
+                val correction = corrected?.let { "Возможно, вы имели в виду «$it» вместо «${plan!!.query}».\n\n" }.orEmpty()
+                val reply = DictionaryReply(id, value, correction + answer, entries, examples,
+                    if (corrected != null) resolvedQuery else plan?.query ?: value, russian, ambiguous)
                 _assistant.update { it.copy(replies = it.replies.map { old -> if (old.id == id) reply else old }, isLoading = false) }
             } catch (cancelled: CancellationException) { throw cancelled }
             catch (_: Exception) {

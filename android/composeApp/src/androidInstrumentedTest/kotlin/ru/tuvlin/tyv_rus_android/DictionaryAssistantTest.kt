@@ -125,6 +125,77 @@ class DictionaryAssistantTest {
             assertTrue(hint.entries.any { it.word == "чигир" })
         }
     }
+    @Test fun requestTyposAreRepairedWithoutChangingQuotedTerms() {
+        for (q in listOf("Кка будт по-руски 'чигир'?", "Перведи чигир на русскй", "Что озночает чигир?", "Подскжи как будт по-русски чигир")) {
+            val plan = parseDictionaryQuestion(q)
+            assertNotNull(q, plan)
+            assertEquals(q, "чигир", plan!!.query)
+            assertEquals(q, false, plan.russian)
+        }
+        val russian = parseDictionaryQuestion("Как будт по-тувинкси медвдь?")!!
+        assertEquals(true, russian.russian)
+        assertEquals("медвдь", russian.query)
+        val quoted = parseDictionaryQuestion("Перведи 'будт' на русский")!!
+        assertEquals("будт", quoted.query)
+        assertEquals("будт", repairQuestionSpelling("будт"))
+        val followUp = parseDictionaryQuestion("А прмиеры?", DictionaryQuestion("чигир", false, QuestionKind.SEARCH))!!
+        assertEquals("чигир", followUp.query)
+        assertEquals(QuestionKind.EXAMPLES, followUp.kind)
+    }
+    @Test fun spellingSuggestionsSupportRussianTuvanAndStandaloneQueries() = runBlocking {
+        val repo = DictionaryRepository()
+        val russian = repo.suggest("медвдь", true)
+        assertTrue(russian.toString(), russian.any { it.query == "медведь" && it.entries.any { e -> e.word == "адыг" } })
+        assertTrue(repo.suggest("медвдеь", true).any { it.query == "медведь" })
+        val tuvan = repo.suggest("чигри", false)
+        assertTrue(tuvan.any { it.query == "чигир" })
+        assertTrue(repo.suggest("%_\"", true).isEmpty())
+        assertTrue(repo.suggest("абракадабраабракадабра", false).isEmpty())
+    }
+    @Test fun typoQuestionsAndBothSearchModesReturnLabelledRealResults() = runBlocking {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            lateinit var vm: DictionaryViewModel
+            scenario.onActivity {
+                vm = ViewModelProvider(it)[DictionaryViewModel::class.java]
+                vm.ask("Кка будт по-тувинкси медвдь?")
+            }
+            val reply = withTimeout(20000) { vm.assistant.first { it.replies.size == 1 && !it.isLoading } }.replies.single()
+            assertTrue(reply.answer, reply.answer.contains("медведь"))
+            assertTrue(reply.answer, reply.answer.contains("Возможно"))
+            assertTrue(reply.entries.any { it.word == "адыг" })
+            assertTrue(reply.russianQuery)
+            scenario.onActivity { vm.ask("чигри") }
+            val bare = withTimeout(20000) { vm.assistant.first { it.replies.size == 2 && !it.isLoading } }.replies.last()
+            assertFalse(bare.russianQuery)
+            assertTrue(bare.entries.any { it.word == "чигир" })
+            scenario.onActivity { vm.setDirection(SearchDirection.RUSSIAN); vm.onQueryChange("медвдь") }
+            val ru = withTimeout(20000) { vm.state.first { it.query == "медвдь" && !it.isLoading } }
+            assertTrue(ru.spellingHint.orEmpty().contains("медведь"))
+            assertTrue(ru.entries.any { it.word == "адыг" })
+            scenario.onActivity { vm.setDirection(SearchDirection.TUVAN); vm.onQueryChange("чигри") }
+            val tyv = withTimeout(20000) { vm.state.first { it.query == "чигри" && !it.isLoading } }
+            assertTrue(tyv.spellingHint.orEmpty().contains("чигир"))
+            assertTrue(tyv.entries.any { it.word == "чигир" })
+        }
+    }
+    @Test fun ambiguousSpellingDoesNotBecomeConfirmedConversationContext() = runBlocking {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            lateinit var vm: DictionaryViewModel
+            scenario.onActivity {
+                vm = ViewModelProvider(it)[DictionaryViewModel::class.java]
+                vm.ask("Что означает чигир?")
+            }
+            withTimeout(20000) { vm.assistant.first { it.replies.size == 1 && !it.isLoading } }
+            scenario.onActivity { vm.ask("Как по-русски агыг?") }
+            val hint = withTimeout(20000) { vm.assistant.first { it.replies.size == 2 && !it.isLoading } }.replies.last()
+            assertTrue(hint.answer, hint.isSuggestion)
+            assertTrue(hint.entries.map { it.word }.toSet().size > 1)
+            scenario.onActivity { vm.ask("А примеры?") }
+            val followUp = withTimeout(20000) { vm.assistant.first { it.replies.size == 3 && !it.isLoading } }.replies.last()
+            assertTrue(followUp.entries.isEmpty())
+            assertTrue(followUp.examples.isEmpty())
+        }
+    }
     @Test fun externalTranslateUrlEncodesTheTextAndKeepsTheDirection() {
         val ru = Uri.parse(googleTranslateUrl("медведь & друг?", true))
         assertEquals("translate.google.com", ru.host)

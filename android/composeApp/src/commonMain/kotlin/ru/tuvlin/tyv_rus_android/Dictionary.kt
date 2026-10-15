@@ -7,6 +7,8 @@ data class DictionaryEntry(
     val examples: List<String> = emptyList()
 )
 
+data class SpellingSuggestion(val query: String, val entries: List<DictionaryEntry>)
+
 enum class SearchDirection { TUVAN, RUSSIAN }
 enum class AppMode { DICTIONARY, ASK }
 
@@ -15,4 +17,5 @@ expect class DictionaryRepository() {
     suspend fun item(id: Int): Pair<String, String>
     suspend fun search(q: String): List<Pair<Int, String>>
     suspend fun lookup(q: String, russian: Boolean): List<DictionaryEntry>
+    suspend fun suggest(q: String, russian: Boolean): List<SpellingSuggestion>
 }

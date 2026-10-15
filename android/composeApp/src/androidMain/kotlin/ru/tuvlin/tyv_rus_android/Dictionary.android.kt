@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase
 import androidx.core.text.HtmlCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.ensureActive
+import kotlin.coroutines.coroutineContext
 import java.io.File
 import java.io.IOException
 import java.text.Normalizer
@@ -87,6 +89,23 @@ private object DictionaryDatabase {
             }
         }
         SQLiteDatabase.openDatabase(destination.path, null, SQLiteDatabase.OPEN_READONLY)
+    }
+
+    // Build once on demand. No extra copy of the dictionary is bundled or written.
+    val headingVocabulary: Map<Int, List<String>> by lazy {
+        db.rawQuery("SELECT search_key FROM dictionary", null).use { cursor ->
+            buildSet { while (cursor.moveToNext()) add(cursor.getString(0)) }
+                .groupBy(String::length)
+        }
+    }
+    val meaningVocabulary: Map<Int, List<String>> by lazy {
+        db.rawQuery("SELECT plain_text FROM dictionary", null).use { cursor ->
+            buildSet {
+                while (cursor.moveToNext()) searchToken.findAll(cursor.getString(0)).forEach { match ->
+                    if (match.value.length in 4..32) add(match.value)
+                }
+            }.groupBy(String::length)
+        }
     }
 
     private fun prepare(file: File) {
@@ -222,6 +241,33 @@ actual class DictionaryRepository actual constructor() {
                 else -> 0
             }
         } else entries
+    }
+    actual suspend fun suggest(q: String, russian: Boolean): List<SpellingSuggestion> {
+        val key = normalizeSearch(q).let { if (russian) it.replace('ё', 'е') else it }
+        if (key.length !in 4..32 || !key.all(Char::isLetter)) return emptyList()
+        val vocabulary = withContext(Dispatchers.IO) {
+            if (russian) DictionaryDatabase.meaningVocabulary else DictionaryDatabase.headingVocabulary
+        }
+        val candidates = withContext(Dispatchers.Default) {
+            val limit = if (key.length > 7) 2 else 1
+            val scored = buildList {
+                for (length in key.length - limit..key.length + limit) {
+                    for (word in vocabulary[length].orEmpty()) {
+                        coroutineContext.ensureActive()
+                        val distance = spellingDistance(key, word)
+                        if (distance in 1..limit) add(word to distance)
+                    }
+                }
+            }
+            val best = scored.minOfOrNull { it.second }
+            scored.filter { it.second == best }.sortedBy { it.first }.take(4).map { it.first }
+        }
+        return candidates.mapNotNull { corrected ->
+            val entries = lookup(corrected, russian).let { found ->
+                if (russian) found.take(4) else found.filter { normalizeSearch(it.word) == corrected }
+            }
+            if (entries.isEmpty()) null else SpellingSuggestion(corrected, entries)
+        }
     }
 
 }

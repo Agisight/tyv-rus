@@ -159,6 +159,10 @@ fun App() {
                         Text(if (ui.direction == SearchDirection.RUSSIAN) "Поиск по русским значениям" else "Слова и значения", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         if (!ui.isLoading) Text(if (ui.direction == SearchDirection.RUSSIAN && ui.entries.size == 120) "Первые 120 статей" else "${ui.entries.size} статей", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
+                    ui.spellingHint?.let { hint ->
+                        Text(hint, Modifier.padding(horizontal = 20.dp, vertical = 4.dp),
+                            style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.secondary)
+                    }
                     if (ui.isLoading) LinearProgressIndicator(Modifier.fillMaxWidth().padding(horizontal = 16.dp))
                     ui.error?.let { error ->
                         Text(error, Modifier.padding(16.dp), color = MaterialTheme.colorScheme.error)

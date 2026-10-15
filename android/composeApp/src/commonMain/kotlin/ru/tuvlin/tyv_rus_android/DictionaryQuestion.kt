@@ -13,17 +13,21 @@ private val requestPrefixes = listOf(
     """^(?:а\s+)?(?:пожалуйста[,!]?\s+|подскажи(?:те)?(?:\s+мне)?[,!]?\s+|скажи(?:те)?(?:\s+мне)?[,!]?\s+|можешь(?:\s+ли)?(?:\s+мне)?\s+|можете(?:\s+ли)?(?:\s+мне)?\s+)""",
     """^(?:а\s+)?(?:как\s+(?:(?:это\s+)?(?:будет|сказать|перевести|переводится|называется)|переводится)|что\s+(?:значит|означает|такое)|какой\s+перевод|как\s+понять)\b\s*""",
     """^(?:а\s+)?(?:переведи(?:те)?|перевести|перевод|объясни(?:те)?|объяснить|значение|найди(?:те)?|найти|покажи(?:те)?|приведи(?:те)?|дай(?:те)?)\b\s*""",
-    """^(?:мне\s+|слово\s+|слова\s+|выражение\s+|фразу\s+|примеры?\s*|употреблени[ея]\s*|со\s+словом\s+|для\s+слова\s+)"""
+    """^(?:мне\s+|слово\s+|слова\s+|выражение\s+|фразу\s+|примеры?\b\s*|употреблени[ея]\s*|со\s+словом\s+|для\s+слова\s+)"""
 ).map { Regex(it, RegexOption.IGNORE_CASE) }
 
 /** Parse dictionary requests; never treat an arbitrary instruction as a translation. */
-fun parseDictionaryQuestion(question: String, previous: DictionaryQuestion? = null): DictionaryQuestion? {
+fun parseDictionaryQuestion(question: String, previous: DictionaryQuestion? = null): DictionaryQuestion? =
+    parseDictionaryRequest(repairQuestionSpelling(question), previous)
+
+private fun parseDictionaryRequest(question: String, previous: DictionaryQuestion?): DictionaryQuestion? {
     val text = questionTerm(question.replace(Regex("\\s+"), " "))
     if (text.isEmpty()) return null
     val language = languageRequest.find(text)
     val direction = language?.value?.lowercase()?.let { !it.contains("рус") }
+    val intentText = Regex("""[«“"']([^»”"']+)[»”"']""").replace(text, " ")
     val kind = when {
-        exampleRequest.containsMatchIn(text) -> QuestionKind.EXAMPLES
+        exampleRequest.containsMatchIn(intentText) -> QuestionKind.EXAMPLES
         language != null || Regex("""\b(?:переведи(?:те)?|перевести|перевод(?:ится)?)\b""", RegexOption.IGNORE_CASE).containsMatchIn(text) -> QuestionKind.TRANSLATION
         Regex("""\b(?:значит|означает|такое|значение|объясни(?:те)?|понять)\b""", RegexOption.IGNORE_CASE).containsMatchIn(text) -> QuestionKind.MEANING
         else -> QuestionKind.SEARCH
@@ -57,6 +61,71 @@ fun parseDictionaryQuestion(question: String, previous: DictionaryQuestion? = nu
     }
     return if (term.split(' ').size <= 3 && kind == QuestionKind.SEARCH)
         DictionaryQuestion(term, null, kind) else null
+}
+
+private val requestWords = setOf(
+    "будет", "сказать", "переведи", "переведите", "перевести", "перевод", "переводится", "называется",
+    "значит", "означает", "значение", "объясни", "объясните", "объяснить", "понять", "такое", "какой",
+    "покажи", "покажите", "приведи", "приведите", "примеры", "пример", "употребления", "употребление",
+    "подскажи", "подскажите", "пожалуйста", "скажи", "скажите", "можешь", "можете", "найди", "найдите",
+    "слово", "слова", "словом", "выражение", "фразу"
+)
+private val languageWords = setOf("тувински", "русски", "тувинском", "русском", "тувинский", "русский")
+private val requestFillers = setOf("как", "что", "а", "на", "по", "это", "мне", "со", "для", "ли", "ещё", "еще", "дай", "дайте")
+
+private fun nearestRequestWord(word: String, candidates: Set<String>): String? {
+    if (word in candidates) return word
+    val limit = if (word.length >= 8) 2 else 1
+    val scored = candidates.filter { kotlin.math.abs(it.length - word.length) <= limit }
+        .map { it to spellingDistance(word, it) }.filter { it.second <= limit }
+    val minimum = scored.minOfOrNull { it.second } ?: return null
+    return scored.filter { it.second == minimum }.singleOrNull()?.first
+}
+
+/** Only repair grammatical request words; quoted terms and the query itself stay intact. */
+internal fun repairQuestionSpelling(question: String): String {
+    val tokens = Regex("""[\p{L}]+""").findAll(question).toList()
+    if (tokens.size < 2) return question
+    val quoted = Regex("""[«“"']([^»”"']+)[»”"']""").findAll(question).map { it.range }.toList()
+    val protected = tokens.map { token -> quoted.any { token.range.first in it } }
+    val original = tokens.map { it.value.lowercase() }
+    val repaired = original.toMutableList()
+    for (i in tokens.indices) {
+        if (protected[i]) continue
+        if (i > 0 && original[i - 1] in setOf("по", "на")) {
+            val forms = languageWords.filter {
+                if (original[i - 1] == "по") it.endsWith("ски") else !it.endsWith("ски")
+            }.toSet()
+            nearestRequestWord(original[i], forms)?.let { repaired[i] = it }
+        }
+        if (original[i].startsWith("по")) {
+            nearestRequestWord(original[i], setOf("порусски", "потувински"))?.let {
+                repaired[i] = if (it == "порусски") "по-русски" else "по-тувински"
+            }
+        }
+    }
+    val hasLanguage = repaired.any { it in languageWords || it in setOf("по-русски", "по-тувински") }
+    for (i in tokens.indices) {
+        if (protected[i]) break
+        val word = repaired[i]
+        if (word in requestFillers || word in languageWords || word.startsWith("по-")) continue
+        if (i == 0 && word.length == 3 && (hasLanguage || original.getOrNull(1)?.let { nearestRequestWord(it, requestWords) } != null)) {
+            nearestRequestWord(word, setOf("как", "что"))?.let { repaired[i] = it; return@let }
+            if (repaired[i] != word) continue
+        }
+        val replacement = if (word.length >= 4) nearestRequestWord(word, requestWords) else null
+        if (replacement == null) break
+        repaired[i] = replacement
+    }
+    return buildString {
+        var offset = 0
+        for (i in tokens.indices) {
+            append(question.substring(offset, tokens[i].range.first))
+            append(if (repaired[i] != original[i]) repaired[i] else tokens[i].value)
+            offset = tokens[i].range.last + 1
+        }
+        append(question.substring(offset))
+    }
 }
 
 /** A conservative spelling hint, including one adjacent-letter transposition. */

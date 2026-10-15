@@ -46,3 +46,5 @@ The optional Google Translate button opens an external browser with the requeste
 Validated target: Android. The existing iOS scaffolding still requires its own dictionary reader and platform validation.
 
 Version 2.1.1 expands Russian request wording in both translation directions, supports follow-up requests such as «А примеры?» using the last matched heading, and offers explicitly labelled spelling suggestions for missing Tuvan words. Suggestions do not silently replace the requested word.
+
+Version 2.1.2 repairs misspelled request words outside quoted terms, with one-edit suggestions for short dictionary words and up to two edits for longer ones. Russian vocabulary is derived on demand from the prepared dictionary, Tuvan vocabulary from headings. Both chat and regular search label suggestions; chat uses a unique correction with a notice and keeps ambiguous alternatives separate. All spelling work runs locally off the UI thread, and fuzzy work is cancellable.
